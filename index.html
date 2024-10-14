@@ -1,0 +1,345 @@
+          <!DOCTYPE html>
+          <html lang="en-GB">
+
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width,initial-scale=1.0">
+            <meta name="robots" content="">
+            <meta name="description" content="A space-themed, old-style DOM web game">
+            <meta name="og:description" content="A space-themed, old-style DOM web game">
+            <meta property="og:image" content="logoLQ.png">
+            <meta property="og:title" content="Squadron">
+            <meta name="twitter:card" content="summary">
+            <link rel="icon" href="ship1t.png">
+            <link rel="manifest" href="manifest.json">
+            <meta name="theme-color" content="#9c27b0">
+            <link rel="preload" href="sound-library.js" as="script">
+            <link rel="preload" href="shipspin.gif" as="image">
+            <link rel="preload" href="menu-loop.gif" as="image">
+            <link rel="preload" href="storyImages/1.png" as="image">
+            <link rel="preload" href="storyImages/2.png" as="image">
+            <link rel="preload" href="storyImages/3.png" as="image">
+            <link rel="preload" href="storyImages/4.png" as="image">
+            <link rel="preload" href="storyImages/5.png" as="image">
+            <link rel="preload" href="logoLQ.png" as="image">
+            <link rel="preload" href="ship1l.png" as="image">
+            <link rel="preload" href="ship1r.png" as="image">
+            <link rel="preload" href="ship1t.png" as="image">
+            <link rel="preload" href="ship2l.png" as="image">
+            <link rel="preload" href="ship2r.png" as="image">
+            <link rel="preload" href="ship2t.png" as="image">
+            <link rel="preload" href="ship3l.png" as="image">
+            <link rel="preload" href="ship3r.png" as="image">
+            <link rel="preload" href="ship3t.png" as="image">
+            <link rel="preload" href="ship4l.png" as="image">
+            <link rel="preload" href="ship4r.png" as="image">
+            <link rel="preload" href="ship4t.png" as="image">
+            <link rel="preload" href="ship5l.png" as="image">
+            <link rel="preload" href="ship5r.png" as="image">
+            <link rel="preload" href="ship5t.png" as="image">
+            <link rel="preload" href="ship6l.png" as="image">
+            <link rel="preload" href="ship6r.png" as="image">
+            <link rel="preload" href="ship6t.png" as="image">
+            <link rel="preload" href="asteroid.png" as="image">
+            <link rel="preload" href="gun.png" as="image">
+            <link rel="preload" href="torpedo.png" as="image">
+            <link rel="preload" href="laser.png" as="image">
+            <link rel="preload" href="background-scroll.png" as="image">
+            <link rel="preload" href="w3.css" as="style">
+            <link rel="preload" href="game.css" as="style">
+            <link rel="preload" href="jquery.js" as="script">
+            <link rel="preload" href="jquery.gamequery.js" as="script">
+            <link rel="preload" href="game.js" as="script">
+            <link rel="preload"
+              href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen&family=Alfa+Slab+One&display=swap"
+              as="font">
+            <title>Loading... | Squadron</title>
+            <script src="sound-library.js"></script>
+            <link rel="stylesheet" type="text/css" href="game.css">
+            <link rel="stylesheet" type="text/css" href="w3.css">
+            <link
+              href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen&family=Alfa+Slab+One&display=swap"
+              rel="stylesheet">
+          </head>
+
+          <body onload="init()">
+            <div id="mainMenu" class="hide w3-center fullWidth fullHeight w3-black bg">
+              <br>
+              <h1 class="ps2p white">SQUADRON</h1><br><br>
+              <button onclick="mainMenu(0)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>1
+                  PLAYER</b></button><br><br>
+              <button onclick="mainMenu(1)"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>SETTINGS</b></button><br><br>
+              <button onclick="mainMenu(2)"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>CREDITS</b></button><br><br>
+            </div>
+            <div id="settingsMenu" class="hide w3-center w3-black fullHeight fullWidth bg"><br>
+              <h1 class="ps2p"><b>SETTINGS</b></h1><br><br>
+              <button onclick="settingsMenu(0)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b
+                  id="music">MUSIC - ON</b></button><br><br>
+              <button onclick="settingsMenu(1)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b
+                  id="sfx">SFX - ON</b></button><br><br>
+              <button onclick="settingsMenu(2)"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>CLOSE</b></button><br>
+            </div>
+            <div id="inGameSettingsMenu" class="hide w3-black w3-center fullHeight fullWidth bg"><br>
+              <h1 class="ps2p"><b>SETTINGS</b></h1><br><br>
+              <button onclick="inGameSettingsMenu(0)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b id="music2">MUSIC - ON</b></button><br><br>
+              <button onclick="inGameSettingsMenu(1)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b id="sfx2">SFX - ON</b></button><br><br>
+              <button onclick="inGameSettingsMenu(2)"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>CLOSE</b></button><br>
+            </div>
+            <div id="creditsMenu" class="hide w3-center w3-black fullWidth fullHeight bg"><br>
+              <h1 class="ps2p">CREDITS</h1><br><br>
+              <div class="ss fullHeight fullWidth">
+                <b class="ss">Thanks to:</b>
+              <ul class="w3-ul ss">
+                <li><a href="https://jquery.com/" target="_blank">JQuery</a> (which is used by GameQuery) for the JavaScript engine used throughout the game.</li>
+                <li><a href="https://gamequeryjs.com/" target="_blank">GameQuery</a> (which is uses JQuery) for the JavaScript
+                  engine used by the game.</li>
+                <li><a href="https://fonts.google.com/" target="_blank">Google Fonts</a> for various fonts used on this site.</li>
+                <li><a href="https://stackoverflow.com/" target="_blank">Stack Overflow</a> (a programmer's best friend) for various code snippets used in this site.</li>
+                <li><a href="https://pixabay.com/" target="_blank">Pixabay</a> for various stock images, audio and video used
+                  across this site.</li>
+                <li><a href="https://canva.com/" target="_blank">Canva</a> for the awesome image and video editor used to edit
+                  assets throughout this site</li>
+                <li><a href="https://freeconvert.com/" target="_blank">Freeconvert</a> for the awesome conversion system used on
+                  files throughout this site.</li>
+                <li><a href="https://enjl.itch.io/background-starry-space/" target="_blank">Enjl on Itch.io</a> for the parallax
+                  background used on this page.</li>
+                <li><a href="https://freepik.com" target="_blank">Freepik</a> for the asteroids used on this site as enemies.</li>
+                <li><a href="https://www.w3schools.com/w3css/default.asp" target="_blank">W3.CSS</a> for the CSS engine sometimes
+                  used on this site.</li>
+                <li><a href="https://www.vecteezy.com/free-videos/stars-loop" target="_blank">Stars Loop Stock Videos by
+                    Vecteezy</a> for the looping stars</li>
+              </ul><br>
+              <b class="ss">Music Credits:</b><br>
+              <ul class="w3-ul ss">
+                <li><a href="https://pixabay.com/" target="_blank">Pixabay</a> for some of the music and SFX used</li>
+                <li>The Lemmings (DOS) soundtrack (Tim 1) used in the background of this game is credit to Psygnosis.</li>
+              </ul>
+                <br>
+                <br>
+              <button onclick="credits(0)"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>CLOSE</b></button><br><br>
+              </div>
+            </div>
+            <div id="story" class="hide w3-center w3-black bg">
+              <div id="story-1"><br>
+                <h1 class="ss storyText"><b>THE RHO SQUADRON WAS ON PATROL, WITH A NEW TRAINEE...</b></h1>
+                <div id="story-1-image" class="story-image"></div>
+                <button onclick="story(0)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>EXIT TO THE
+                    MAIN MENU</b></button>
+                <button onclick="story(1)"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>NEXT</b></button>
+              </div>
+              <div id="story-2" class="hide"><br>
+                <h1 class="ss storyText"><b>...WHEN THE INFAMOUS ZETA SQUAD ATTACKED AND CAPTURED ALL OF THEM.</b></h1>
+                <div id="story-2-image" class="story-image"></div>
+                <button onclick="story(0)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>EXIT TO THE MAIN MENU</b></button>
+                <button onclick="story(2)"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>BACK</b></button>
+                <button onclick="story(1)"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>NEXT</b></button>
+              </div>
+              <div id="story-3" class="hide"><br>
+                <h1 class="ss storyText"><b>ALL? ONLY ONE ESCAPED. THE TRAINEE NAMED KATEZ WAS LUCKY ENOUGH TO SLIP THROUGH.</b>
+                </h1>
+                <div id="story-3-image" class="story-image"></div>
+                <button onclick="story(0)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>EXIT TO THE MAIN MENU</b></button>
+                <button onclick="story(2)"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>BACK</b></button>
+                <button onclick="story(1)"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>NEXT</b></button>
+              </div>
+              <div id="story-4" class="hide"><br>
+                <h1 class="ss storyText"><b>YOU MUST HELP KATEZ RECOVER THE CAPTURED SHIPS AND DEFEAT THE ZETA SQUADRON.</b>
+                </h1>
+                <div id="story-4-image" class="story-image"></div>
+                <button onclick="story(0)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>EXIT TO THE MAIN MENU</b></button>
+                <button onclick="story(2)"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>BACK</b></button>
+                <button onclick="story(1)"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>NEXT</b></button>
+              </div>
+              <div id="story-5" class="hide"><br>
+                <div id="story-5-image" class="story-image"></div>
+                <button onclick="story(0)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>EXIT TO THE
+                    MAIN MENU</b></button>
+                <button onclick="story(2)"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>BACK</b></button>
+                <button onclick="story(1)" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>LET'S
+                    PLAY!</b></button>
+              </div>
+            </div>
+            <div id="upScroller" class="hide">
+              <div id="playground"></div>
+              <div id="bottomBar">
+                <table id="bottomBarTable">
+                  <tr>
+                    <td class="segment-1 segment">
+                      <table class="fullWidth">
+                        <tr>
+                          <td rowspan="3" id="selectedShipImageAndMessage">
+                            <img id="selectedShipImage" src="ship1t.png" alt="Ship"><br>
+                            <span id="downToSwitchMessage">PRESS DOWN TO SWITCH</span>
+                          </td>
+                          <td colspan="2">
+                            <span>SHIP <span id="selectedShipNumber">1</span> - <span
+                                id="selectedShipName">TRAINEE</span></span><br>
+                            <span class="smallFont"><span id="currentWeaponName">NO WEAPON</span>: DEALS <span id="currentWeaponHP">0</span>
+                              DAMAGE</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                          <table>
+                            <tr>
+                          <td class="bottomStatusBarLabel">
+                            <span class="smallFont">HEALTH:</span>
+                          </td>
+                          <td>
+                            <span class="smallFont"><span class="healthGreen">GREEN</span> BAR ON THE SHIP</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="bottomStatusBarLabel">
+                            <span class="smallFont">SHIELD:</span>
+                          </td>
+                          <td>
+                            <span class="smallFont"><span class="shieldBlue">BLUE</span> BAR ON THE SHIP</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                        </tr>
+                      </table>
+                    <td class="segment-2 segment">
+                      <table class="fullWidth">
+                        <tr class="fullWidth">
+                          <td colspan="2" class="fullWidth">
+                            <span><span id="currentWeaponName2">NO WEAPON</span>: <span id="weaponReloads">NO
+                                AMMUNITION</span></span>
+                          </td>
+                        </tr>
+                        <tr class="fullWidth">
+                          <td colspan="2" class="fullWidth tc">
+                            <span>STOP FIRING TO RECHARGE</span>
+                          </td>
+                        </tr>
+                        <tr class="fullWidth">
+                          <td>
+                          </td>
+                          <td>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td class="segment-3 segment">
+                      <table class="fullWidth">
+                        <tr>
+                          <td>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span><span>WORLD</span>: <span id="bottomWorldNumber">1</span></span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <span>SQUADRONS: <span id="bottomSquadronNumber">5</span></span>
+                          </td>
+                  </tr>
+                </table>
+                </td>
+                <td class="segment-4 segment">
+                  <table>
+                    <tr>
+                      <td class="tCellBottomBorder">
+                        <span><span>REMAINING DISTANCE TO PLANET</span>: <span id="remainingDistanceToPlanet">200</span>KM</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>PRESS ENTER FOR MENU</span>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                </tr>
+                </table>
+              </div>
+            </div>
+            <div id="loading" class="fullWidth w3-center w3-black fullHeight">
+              <img src="shipspin.gif" alt="Loading..." id="splashLogo"><br>
+              <h1 class="ss" id="splashOtherh1">Loading your experience...</h1>
+              <h2 class="ss" id="splashOtherh2">This may take a while. Please do not press any key or leave the page. If this is your first time visiting this site, please reload once the page has stopped loading.</h2>
+            </div>
+            <div id="resized" class="hide w3-center fullWidth w3-black fullHeight bg"><br>
+              <h1 class="ss">Page resizes are not permitted. <br> Please return this page to the original dimensions, or reload.</h1>
+            </div>
+            <div id="paused" class="hide w3-center w3-black fullHeight fullWidth bg"><br>
+              <h1 class="ss">This page has lost focus. Click to resume game.</h1>
+            </div>
+            <div id="tooSmall" class="hide w3-center w3-black fullHeight fullWidth bg"><br>
+              <h1 class="ss">This game's minimum page size requirement of 1200 (w) x 550 (h) pixels has not been met. Please switch to another device or resize the page, then reload.</h1>
+            </div>
+            <div id="gameOver" class="hide w3-black fullHeight w3-center fullWidth bg"><br>
+              <h1 class="ps2p red">GAME OVER!</h1><br>
+              <h2 class="ss red">YOUR WHOLE SQUADRON WAS DESTROYED TOO MANY TIMES!</h2><br><br>
+              <button onclick="returnToMainMenu()" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple"><b>QUIT TO
+                  THE MAIN MENU</b></button><br><br>
+            </div>
+            <div id="newWorld" class="hide w3-black w3-center fullWidth fullHeight bg"><br>
+              <h1 class="ps2p green">YOU REACHED A PLANET AND RESCUED ONE OF YOUR SQUADRON!</h1><br>
+              <h2 class="ss green">You rescued the <span id="rescuedShipName" class="green">GUNSHIP</span>! It gives
+                you another weapon ability, known as a <span id="rescuedWeaponName" class="green">GUN</span>. It deals <span
+                  id="rescuedWeaponHP" class="green">1</span> damage. You can press the down arrow to switch to this ship.</h2>
+              <br><br>
+              <button onclick="newWorldContinue()"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>THANKS!</b></button>
+            </div>
+            <div id="squadronDeath" class="hide w3-center fullWidth fullHeight w3-black bg"><br>
+              <h1 class="ps2p red">YOU LOST A SQUADRON LIFE.</h1><br>
+              <h2 class="ss red">ALL YOUR SHIPS RAN OUT OF LIVES.</h2><br><br>
+              <button onclick="continueAfterDeath()"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>CONTINUE</b></button>
+            </div>
+            <div id="gameWon" class="hide w3-center fullWidth fullHeight w3-black bg"><br>
+              <h1 class="ps2p green">YOU WIN!</h1><br>
+              <h2 class="ss green">CONGRATULATIONS, PLAYER. YOU RESCUED THE ENTIRE RHO SQUADRON AND DEFEATED THE INFAMOUS ZETA SQUAD!</h2><br><br>
+              <button onclick="returnToMainMenu()"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>RETURN TO THE MAIN MENU</b></button>
+            </div>
+            <div id="pauseMenu" class="hide w3-black w3-center fullWidth fullHeight bg"><br>
+              <h1 class="ps2p green">THE GAME IS PAUSED.</h1><br><br><br>
+              <button onclick="pauseMenuDo(0)"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>CONTINUE</b></button><br><br>
+              <button onclick="pauseMenuDo(1)"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>SETTINGS</b></button><br><br>
+              <button onclick="returnToMainMenu()" class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple ss"><b>QUIT TO THE MAIN MENU</b></button>
+            </div>
+            <div class="hide" id="audio">
+              <audio id="bg0" preload="auto">
+                <source src="/sound/bg/1.mp3" type="audio/mpeg">
+              </audio>
+              <audio id="bg1" preload="auto">
+                <source src="/sound/bg/2.mp3" type="audio/mpeg">
+              </audio>
+              <audio id="bg2" preload="auto">
+                <source src="/sound/bg/3.ogg" type="audio/ogg">
+              </audio>
+            </div>
+            <noscript>
+              <div class="fullWidth fullHeight w3-center bg">
+                <h1 class="ss" id="noscriptResult">Please enable JavaScript for this game to work,
+                  then reload. Thanks.</h1>
+              </div>
+            </noscript>
+            <script src="jquery.js"></script>
+            <script src="jquery.gamequery.js"></script>
+            <script src="game.js"></script>
+          </body>
+
+          </html>

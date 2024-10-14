@@ -1,0 +1,315 @@
+.ps2p{
+  font-family: "Press Start 2P"!important;
+}
+#story{
+  width: 100vw;
+  height: 100vh;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+  color: white;
+}
+#creditsMenu{
+  height: 100%!important;
+}
+.ss{
+  font-family: "Silkscreen"!important;
+}
+.fullHeight{
+  height: 100vh;
+}
+.white{
+  color: #fff!important;
+}
+.purple{
+  color: #9c27b0!important;
+}
+.alfa-slab-one {
+  font-family: Alfa Slab One;
+}
+.hide{
+  display: none;
+}
+button{
+  width: 20vw!important;
+}
+#gameOver{
+  height: 100vh;
+  background-color: white;
+  position: absolute;
+  z-index: 3!important;
+}
+#squadronDeath{
+  height: 100vh;
+  background-color: white;
+  position: absolute;
+  z-index: 4!important;
+}
+#newWorld{
+  height: 100vh;
+  background-color: white;
+  position: absolute;
+  z-index: 5!important;
+}
+#resized{
+  height: 100vh;
+  background-color: white;
+  position: absolute;
+  z-index: 6!important;
+}
+#paused{
+  height: 100vh;
+  background-color: white;
+  position: absolute;
+  z-index: 7!important;
+}
+#loading{
+  background-color: white;
+  position: absolute;
+  z-index: 8!important; 
+}
+#story-1-image{
+  background-image: url("storyImages/1.png");
+}
+#story-2-image{
+  background-image: url("storyImages/2.png");
+}
+#story-3-image{
+  background-image: url("storyImages/3.png");
+}
+#story-4-image{
+  background-image: url("storyImages/4.png");
+}
+#story-5-image{
+  background-image: url("storyImages/5.png");
+}
+#story button{
+  height: auto!important;
+}
+#story .story-image{
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 65vh!important;
+  width: 100vw!important;
+}
+#story .storyText{
+  height: auto!important;
+}
+.bg{
+  background-image: url("menu-loop.gif")!important;
+  background-repeat: no-repeat!important;
+  background-size: cover!important;
+}
+button{
+  text-wrap: pretty!important;
+}
+#noscriptResult{
+  background-color: white;
+  position: absolute!important;
+  z-index: 9!important;
+}
+h2{
+  font-size: 1em!important;
+}
+.red{
+  color: #e74c3c!important;
+}
+.green{
+  color: green!important;
+}
+.bottomStatusBar{
+  height: 1vw;
+  background-color: #e74c3c;
+  border-width: 0!important;
+  border-style: solid!important;
+  border-radius: 1vw!important;
+}
+.bottomStatusBarInner{
+  width: 100%;
+  height: 100%;
+  border-width: 0!important;
+  border-style: solid!important;
+  border-radius: 1vw!important;
+}
+#selectedShipImageAndMessage{
+  width: 30%;
+}
+#selectedShipImage{
+  width: 80%;
+}
+#selectedShipInfo{
+  width: 70%;
+}
+p, span{
+  color: white;
+}
+#downToSwitchMessage{
+  font-size: 10%;
+}
+#bottomBar{
+  background-color: black;
+  bottom: 0!important;
+  position: absolute!important;
+  border-width: 0;
+  height: 20vh!important;
+  width: 100vw!important;
+}
+table{
+  text-align: left;
+  border-width: 0;
+  width: 100%!important;
+  height: 100%;
+  border-collapse: collapse!important;
+}
+
+.bottomStatusBarLabel{
+  width: 30%;
+}
+
+.bottomStatusBar{
+  width: 70%;
+}
+
+.fullWidth{
+  width: 100%!important;
+}
+
+#bottomBarTable .segment{
+  width: 25%;
+  border-style: solid;
+  border-width: 0.25vw;
+  border-color: white;
+  padding: 0.3vw;
+}
+
+.tl{
+  text-align: left;
+}
+.tc{
+  text-align: center;
+}
+.fhc{
+  position: absolute!important;
+  left: 50%!important;
+  right: 50%!important;
+}
+.tr{
+  text-align: right;
+}
+.fvc{
+  position: absolute!important;
+  top: 50%!important;
+  bottom: 50%!important;
+}
+
+.tCellBottomBorder{
+  border-style: solid;
+  border-width: 0;
+  border-bottom-width: 0.25vw;
+  border-color: white;
+}
+
+.enemy{
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center!important;
+  background-size: contain!important;
+  text-align:center;
+}
+.asteroid{
+  background-image: url('asteroid.png')!important;
+}
+.player{
+  background-color:transparent; 
+  text-align:center;
+}
+.player:not(.unlockedShip){
+  display: none!important;
+}
+.player{
+  opacity: 1!important;
+}
+.player:not(.selectedShip){
+  opacity: 0.35!important;
+}
+.shipBody{
+  background-repeat: no-repeat;
+  background-position: center!important;
+  background-size: contain!important;
+}
+#ship1Body{
+  background-image: url('ship1t.png');
+}
+#ship2Body{
+  background-image: url('ship2t.png');
+}
+#ship3Body{
+  background-image: url('ship3t.png');
+}
+#ship4Body{
+  background-image: url('ship4t.png');
+}
+#ship5Body{
+  background-image: url('ship5t.png');
+}
+#ship6Body{
+  background-image: url('ship6t.png');
+}
+#splashLogo{
+  height: calc(100vh - 10em);
+}
+#splashOtherh1{
+  font-size: 3em;
+}
+#splashOtherh2{
+  font-size: 1.5em;
+}
+.generalStatusBar{
+  border-radius: 80px!important;
+  border-style: solid!important;
+}
+.smallFont{
+  font-size: 0.8em;
+}
+.healthBar{
+  background-color: green;
+}
+.shieldBar{
+  background-color: blue;
+}
+.healthGreen{
+  color: green;
+}
+.shieldBlue{
+  color: blue;
+}
+.playerMissiles{
+  background-repeat: no-repeat;
+  background-position: center!important;
+  background-size: contain!important;
+  text-align:center;
+  background-color: transparent;
+}
+.gun{
+   background-image: url('gun.png')!important;
+}
+.torpedo{
+   background-image: url('torpedo.png')!important;
+}
+.laser{
+   background-image: url('laser.png')!important;
+}
+body{
+  margin: 0px 0px 0px 0px!important;
+  padding: 0px 0px 0px 0px!important;
+}
+#playground{
+  background-color: black;
+}
+#background > div{
+  background-repeat: repeat!important;
+  background-position: center!important;
+  background-size: contain!important;
+  text-align:center;
+  background-color: transparent;
+}
