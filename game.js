@@ -227,10 +227,6 @@ function soundLoad(ev){
   if(ev.id == "torpedo"){
     originalDimensions[0] = window.innerWidth;
       originalDimensions[1] = window.innerHeight;
-    if(window.innerWidth < 1200 || window.innerHeight < 550){
-      document.getElementById("loading").style.display = "none";
-      document.getElementById("tooSmall").style.display = "block";
-    }else{
       currentDimensions = originalDimensions.slice();
       gameWidth = window.innerWidth;
       gameHeight = window.innerHeight * 0.8;
@@ -491,7 +487,6 @@ function soundLoad(ev){
           }, 500);
         }
       });
-  }
   }
 }
 
