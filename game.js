@@ -243,7 +243,7 @@ function soundLoad(ev){
       barBorders = gameHeight / 879;
       playerTotalHeight = playerHeight + shieldBarHeight + healthBarHeight + barBorders * 30;
       centrel = playerWidth * 5 / 2  - playerWidth / 2;
-     background = new $.gQ.Animation({imageURL: "background-scroll.png"});
+     background = new $.gQ.Animation({imageURL: "scroll2.png"});
 
       $("#playground").playground({height: gameHeight, width: gameWidth, keyTracker: true});
 
