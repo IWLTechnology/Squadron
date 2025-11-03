@@ -1,4 +1,3 @@
-/* vars */
 var musStopCount;
 var gamepadDeadzone = 0.5;
 var flashTime = 100;
@@ -121,7 +120,7 @@ var playerWidth;
 var spawnBeforeSize;
 var sPlayerHeight;
 var sPlayerWidth;
-var powerupSpawnChance = [41, 63, 89, 91, 92, 100]; //0 = health, ammo, shield, sql, inv, bomb
+var powerupSpawnChance = [41, 63, 89, 91, 92, 100];
 var background;
 var playerHealths = [5, 8, 8, 11, 11, 15, 30];
 var playerShields = [0, 0, 3, 5, 10, 15, 20];
@@ -215,7 +214,7 @@ var switchShipCooldownTime = 10;
 var gameInterrups = {
   resize: false,
   blur: false,
-  manualPause: false
+  manualPause: true
 };
 var playerUpSpeedFactor = 2;
 var clearGame = false;
@@ -277,8 +276,6 @@ for (i = 0; i < playerShields.length; i++) {
   }
 }
 
-/* FUNCTIONS */
-
 function generateLevels() {
   for (var i = 0; i < 6; i++) {
     generateLevel(i);
@@ -294,7 +291,6 @@ function generateLevel(level) {
     fsi[i] = Math.ceil(levelFrameDuration / newSpawnTimes[i]);
   }
   for (i = 0; i < levelFrameDuration + 1; i++) {
-    //grow?
     levels[level][i] = [];
   }
   for (i = 0; i < fsi.length; i++) {
@@ -348,7 +344,7 @@ function generateLevel(level) {
 }
 
 function spawnRun(level, time) {
-  var current = levels[level][time]; //not enough in the level gen - thats the problem
+  var current = levels[level][time];
   var item, name, enemyElement, powerupN, powerupName;
   for (var i = 0; i < current.length; i++) {
     item = current[i];
@@ -1213,10 +1209,7 @@ function init() {
       }
     });
   } else {
-    //alert("ERROR: CACHING CANCELLED DUE TO SERVICEWORKER FAIL.");
-    //if (DEV) {
     preloadComplete();
-    //}
   }
 }
 
@@ -1280,6 +1273,10 @@ function scaleResized() {
   document.getElementById("resizedMenu").style.height = 559 * scaleFactor;
   document.getElementById("resizedGame").style.width = 1280 * scaleFactor;
   document.getElementById("resizedGame").style.height = 559 * scaleFactor;
+  var newCss = [(1280 * scaleFactor) / 100, (559 * scaleFactor) / 100];
+  var root = document.documentElement;
+  root.style.setProperty("--vw-replace", newCss[0] + "px");
+  root.style.setProperty("--vh-replace", newCss[1] + "px");
 }
 
 function scalePage() {
@@ -1569,70 +1566,6 @@ function soundLoad(ev) {
         height: shieldBarHeight
       })
       .end()
-      /*.addGroup("ship8", {
-        animation: "",
-        posx: centrel - playerWidth,
-        posy: 3 * playerTotalHeight,
-        width: playerWidth,
-        height: playerTotalHeight
-      })
-      .addSprite("ship8Body", { animation: "", posx: 0, posy: 0, width: playerWidth, height: playerHeight })
-      .addSprite("ship8HealthBar", {
-        posx: 0,
-        posy: playerHeight + healthBarHeight - barBorders * 2,
-        width: playerWidth,
-        height: healthBarHeight
-      })
-      .addSprite("ship8ShieldBar", {
-        posx: 0,
-        posy: playerHeight + healthBarHeight + barBorders * 2 + shieldBarHeight + barBorders * 2,
-        width: playerWidth,
-        height: shieldBarHeight
-      })
-      .end()
-      .addGroup("ship9", {
-        animation: "",
-        posx: centrel + playerWidth,
-        posy: 3 * playerTotalHeight,
-        width: playerWidth,
-        height: playerTotalHeight
-      })
-      .addSprite("ship9Body", { animation: "", posx: 0, posy: 0, width: playerWidth, height: playerHeight })
-      .addSprite("ship9HealthBar", {
-        posx: 0,
-        posy: playerHeight + healthBarHeight - barBorders * 2,
-        width: playerWidth,
-        height: healthBarHeight
-      })
-      .addSprite("ship9ShieldBar", {
-        posx: 0,
-        posy: playerHeight + healthBarHeight + barBorders * 2 + shieldBarHeight + barBorders * 2,
-        width: playerWidth,
-        height: shieldBarHeight
-      })
-      .end()
-      .addGroup("ship10", {
-        animation: "",
-        posx: centrel + 3 * playerWidth,
-        posy: 3 * playerTotalHeight,
-        width: playerWidth,
-        height: playerTotalHeight
-      })
-      .addSprite("ship10Body", { animation: "", posx: 0, posy: 0, width: playerWidth, height: playerHeight })
-      .addSprite("ship10HealthBar", {
-        posx: 0,
-        posy: playerHeight + healthBarHeight - barBorders * 2,
-        width: playerWidth,
-        height: healthBarHeight
-      })
-      .addSprite("ship10ShieldBar", {
-        posx: 0,
-        posy: playerHeight + healthBarHeight + barBorders * 2 + shieldBarHeight + barBorders * 2,
-        width: playerWidth,
-        height: shieldBarHeight
-      })
-      .end()
-      */
       .end();
     for (var i = 0; i < noOfShips; i++) {
       var ip = i + 1;
@@ -2525,6 +2458,7 @@ function powerupCollect(n) {
 }
 
 function startGame() {
+  gameInterrups.manualPause = false;
   updateSquadronLives();
   document.getElementById("mainMenu").style.display = "none";
   currentMenu = 0;
@@ -2733,8 +2667,6 @@ function updatePlanetDistance() {
     document.getElementById("remainingDistanceToPlanet").innerHTML =
       `PLANET INCOMING IN ${remainingDistanceToPlanet}KM`;
   }
-  //console.log(worldNumber - 1, worldMeterTime * planetDistances[worldNumber - 1], gameTime, planetDistances[worldNumber - 1] - gameTime / worldMeterTime);
-  //console.log(remainingDistanceToPlanet - (planetDistances[worldNumber - 1] - gameTime / worldMeterTime));
   if (remainingDistanceToPlanet <= (gameHeight * 1.3) / enemySpeeds[0] / worldMeterTime) {
     stopSpawn = true;
   }
@@ -3026,7 +2958,7 @@ function updateHealthbar() {
         shipExplosionActive = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
       }
     } else {
-      if (sound[1]) {
+      if (sound[1] && shipExplosionActive[selectedShip] == 0) {
         playSound("shipDead");
       }
       selectedShip = 0;

@@ -1,4 +1,3 @@
-/*FIX PAUSE BUTTON*/
 button,
 button b {
     font-size: calc(var(--vh-replace) * 2.862254) !important;
@@ -491,6 +490,6 @@ table {
     font-size: calc(var(--vh-replace) * 1.5) !important;
 }
 .clearSS {
-    background-color: #ff6868!important;
-    color: black!important;
+    background-color: #ff6868 !important;
+    color: black !important;
 }
