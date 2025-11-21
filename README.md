@@ -14,19 +14,5 @@ Squadron comes packaged in several formats, all available under the "Releases" s
 
 Download the latest release from the "Releases tab".
 
-Alternatively, you can register the official Squadron RPM repository (for systems with DNF only).
-Create the file /etc/yum.repos.d/squadron.repo with the following contents:
-
-    [squadron]
-    name=squadron
-    baseurl=https://iwltechnology.github.io/squadron-rpm/
-    enabled=1
-    gpgcheck=0
-
-Then, run the following to install Squadron:
-
-    sudo dnf makecache --refresh
-    sudo dnf install Squadron -y
-
 ## Licensing
 Everything contained in this repository, unless otherwise stated in the credits section of the game, is licensed under the GNU General Public License v3.0 only (GPL-3.0-only).
