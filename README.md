@@ -12,3 +12,14 @@ Squadron comes packaged in several formats, all available under the "Releases" s
     
 ## Licensing
 Everything contained in this repository, unless otherwise stated in the credits section of the game, is licensed under the GNU General Public License v3.0 only (GPL-3.0-only).
+
+# Installation
+Download the latest release from the "Releases tab".
+
+You can also follow this template for registering the custom RPM repo that I have set up:
+
+    [Squadron]
+    name=Squadron RPM Repository
+    baseurl=https://iwltechnology.github.io/squadron-rpm/
+    enabled=1
+    gpgcheck=0
