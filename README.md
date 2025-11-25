@@ -1,3 +1,4 @@
+[![CodeQL](https://github.com/IWLTechnology/Squadron/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/IWLTechnology/Squadron/actions/workflows/github-code-scanning/codeql) [![Deploy Jekyll with GitHub Pages dependencies preinstalled](https://github.com/IWLTechnology/Squadron/actions/workflows/jekyll-gh-pages.yml/badge.svg)](https://github.com/IWLTechnology/Squadron/actions/workflows/jekyll-gh-pages.yml)
 # Squadron
 A top-down 2D retro-style space arcade game available in electron-packaged versions (recommended), or a web format, as indicated in the "Web" section of the description of this repository. It supports gamepads, and the changing of controls.
 
