@@ -1,5 +1,47 @@
+var gamepadMapping = "default";
+var eggUsedAtStart = false;
+var settingsData = JSON.parse(localStorage.getItem("settings"));
+if (settingsData == null) {
+  settingsData = {
+    sound0: null,
+    sound1: null,
+    insql: null,
+    autosaveTimeFactor: null,
+    egg: null,
+    gamepadDeadzone: null,
+    controls: null,
+    gcontrols: null,
+    nowelcome: null
+  };
+}
+var slotsAvail = false;
+var currentGameSlot = 1;
+var egg = settingsData.egg;
+if (egg == "true") {
+  egg = true;
+  eggUsedAtStart = true;
+  eggGraphics();
+} else {
+  egg = false;
+}
+var eggUsed = false;
+var welcomeAlertOpen = false;
+var hseasy = localStorage.getItem("hs_easy");
+var hsnorm = localStorage.getItem("hs_norm");
+var hshard = localStorage.getItem("hs_hard");
+if (hseasy == undefined || hseasy == null) hseasy = "000000";
+if (hsnorm == undefined || hsnorm == null) hsnorm = "000000";
+if (hshard == undefined || hsard == null) hshard = "000000";
+document.getElementById("hs_easy").innerHTML = hseasy.padStart(6, "0");
+document.getElementById("hs_norm").innerHTML = hsnorm.padStart(6, "0");
+document.getElementById("hs_hard").innerHTML = hshard.padStart(6, "0");
 var musStopCount;
-var gamepadDeadzone = 0.5;
+var gamepadDeadzone = settingsData.gamepadDeadzone;
+if (gamepadDeadzone == null || gamepadDeadzone == undefined) {
+  gamepadDeadzone = "0.5";
+}
+gamepadDeadzone = Number(gamepadDeadzone);
+document.getElementById("deadzoneN").innerHTML = gamepadDeadzone;
 var flashTime = 100;
 var oldMenuSelected;
 var powerupHeight;
@@ -7,7 +49,7 @@ var powerupWidth;
 var shipToCollectHeight;
 var shipToCollectWidth;
 var powerupNames = ["life", "refillammo", "shield", "squadlife", "invincibility", "clear"];
-var controls = sessionStorage.getItem("controls");
+var controls = settingsData.controls;
 if (controls == null || controls == undefined) {
   controls = {
     flyleft: 37,
@@ -21,7 +63,7 @@ if (controls == null || controls == undefined) {
 } else {
   controls = JSON.parse(controls);
 }
-var gamePadControls = sessionStorage.getItem("gcontrols");
+var gamePadControls = settingsData.gcontrols;
 if (gamePadControls == null || gamePadControls == undefined) {
   gamePadControls = {
     flyleft: 100,
@@ -35,8 +77,7 @@ if (gamePadControls == null || gamePadControls == undefined) {
 } else {
   gamePadControls = JSON.parse(gamePadControls);
 }
-var menuSelectMax = [3, 6, 2, 1, 2, 1, 1, 1, 3, 4, 13, 2, 1, 1, 8, 8];
-var sound = [sessionStorage.getItem("sound0"), sessionStorage.getItem("sound1")];
+var sound = [settingsData.sound0, settingsData.sound1];
 switch (sound[0]) {
   case "false":
     sound[0] = false;
@@ -53,19 +94,15 @@ switch (sound[1]) {
     sound[1] = true;
     break;
 }
-
-var te;
 if (sound[0] && sound[1]) {
-  te = "SOUND - ON";
+  document.getElementById("sound").innerHTML = "SOUND - ON";
 } else if (sound[0] && !sound[1]) {
-  te = "SOUND - MUSIC ONLY";
+  document.getElementById("sound").innerHTML = "SOUND - MUSIC ONLY";
 } else if (!sound[0] && sound[1]) {
-  te = "SOUND - SFX ONLY";
+  document.getElementById("sound").innerHTML = "SOUND - SFX ONLY";
 } else {
-  te = "SOUND - OFF";
+  document.getElementById("sound").innerHTML = "SOUND - OFF";
 }
-document.getElementById("sound").innerHTML = te;
-document.getElementById("sound2").innerHTML = te;
 var DEV = false;
 var LOGGING = false;
 var CONTNMW = false;
@@ -94,7 +131,7 @@ var weaponNamesDescriptive = [
   "BASE #3"
 ];
 var planetDistances = [150, 300, 400, 500, 600, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700];
-var initialSquadronLives = sessionStorage.getItem("insql");
+var initialSquadronLives = settingsData.insql;
 if (initialSquadronLives == null || initialSquadronLives == undefined) {
   initialSquadronLives = "5";
 }
@@ -120,7 +157,7 @@ var playerWidth;
 var spawnBeforeSize;
 var sPlayerHeight;
 var sPlayerWidth;
-var powerupSpawnChance = [41, 63, 89, 91, 92, 100];
+var powerupSpawnChance = [41, 60, 86, 88, 90, 100];
 var background;
 var playerHealths = [5, 8, 8, 11, 11, 15, 30];
 var playerShields = [0, 0, 3, 5, 10, 15, 20];
@@ -185,7 +222,8 @@ var timeouts = {
   invincibilityWarn: 0,
   invincibilityMusicSlow: 0,
   bossbgmusicStop: null,
-  alert: null
+  alert: null,
+  autosave: 0
 };
 var stopScroll = false;
 var bomb = false;
@@ -207,7 +245,8 @@ var gamePadJustPressed = {
   menuenter: false
 };
 var stopWorldCounter = false;
-var menuSelected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var menuSelected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var menuSelectMax = [4, 6, 2, 1, 2, 1, 1, 1, 4, 4, 13, 2, 1, 1, 8, 8, 2, 3, 4, 5, 5, 3];
 var currentMenu = 0;
 var switchShipCooldown = false;
 var switchShipCooldownTime = 10;
@@ -248,6 +287,19 @@ var frameRateS = 1000 / refreshRate;
 var shieldRespawnTime = Math.ceil(7 * frameRateS);
 var weaponRespawnTime = Math.ceil(0.5 * frameRateS);
 var bossShieldRespawnTime = Math.ceil(4 * frameRateS);
+var autosaveTimeFactor = settingsData.autosaveTimeFactor;
+if (autosaveTimeFactor == null || autosaveTimeFactor == undefined) {
+  autosaveTimeFactor = "15";
+}
+autosaveTimeFactor = Number(autosaveTimeFactor);
+if (autosaveTimeFactor == 0) {
+  document.getElementById("autosaveDuration").innerHTML = "AUTOSAVE DISABLED";
+  document.getElementById("autosaveDuration2").innerHTML = "AUTOSAVE DISABLED";
+} else {
+  document.getElementById("autosaveDuration").innerHTML = `AUTOSAVE DURATION: ${autosaveTimeFactor} secs`;
+  document.getElementById("autosaveDuration2").innerHTML = `AUTOSAVE DURATION: ${autosaveTimeFactor} secs`;
+}
+var autosaveTime = Math.ceil(autosaveTimeFactor * frameRateS);
 var bossWeaponRespawnTime = Math.ceil(0.01 * frameRateS);
 var bossFireTime = Math.ceil(0.25 * frameRateS);
 var enemyShieldRespawnTime = Math.ceil(4 * frameRateS);
@@ -280,6 +332,18 @@ function generateLevels() {
   for (var i = 0; i < 6; i++) {
     generateLevel(i);
   }
+}
+
+function changeDeadzone() {
+  var gamepadDeadzoneT = gamepadDeadzone * 10;
+  gamepadDeadzoneT++;
+  if (gamepadDeadzoneT > 10) {
+    gamepadDeadzoneT = 0;
+  }
+  gamepadDeadzone = gamepadDeadzoneT / 10;
+  settingsData.gamepadDeadzone = gamepadDeadzone.toString();
+  localStorage.setItem("settings", JSON.stringify(settingsData));
+  document.getElementById("deadzoneN").innerHTML = gamepadDeadzone;
 }
 
 function generateLevel(level) {
@@ -362,8 +426,15 @@ function spawnRun(level, time) {
           enemyElement = $("#" + name);
           enemyElement.addClass("enemy");
           enemyElement.addClass("asteroid");
+          if (Math.floor(Math.random() * 400000) == 67390 && !egg) {
+            enemyElement.addClass("eggAsteroid");
+          }
           var asteroidN = item.type2;
-          enemyElement[0].style.backgroundImage = `url('./assets/images/hq/asteroid-${asteroidN}.png')`;
+          if (!egg) {
+            enemyElement[0].style.backgroundImage = `url('./assets/images/hq/asteroid-${asteroidN}.png')`;
+          } else {
+            enemyElement[0].style.backgroundImage = `url('./assets/images/hq/asteroid-egg.png')`;
+          }
           enemyElement[0].enemy = new Enemy(enemyElement, name, 0, 5, 0, 0, 3, 0);
         }
         break;
@@ -402,7 +473,11 @@ function spawnRun(level, time) {
           enemyElement.addClass("shootingEnemy");
           var typeN = item.type2;
           var tnp = typeN + 1;
-          enemyElement[0].style.backgroundImage = `url('./assets/images/hq/zeta-${tnp}-top.png')`;
+          if (!egg) {
+            enemyElement[0].style.backgroundImage = `url('./assets/images/hq/zeta-${tnp}-top.png')`;
+          } else {
+            enemyElement[0].style.backgroundImage = `url('./assets/images/hq/zeta-egg.png')`;
+          }
           enemyElement[0].enemy = new Enemy(
             enemyElement,
             name,
@@ -441,11 +516,33 @@ function spawnRun(level, time) {
 function updateScore() {
   var scoreUpd = String(score).padStart(6, "0");
   document.getElementById("scoreNumber").innerHTML = scoreUpd;
+  switch (initialSquadronLives) {
+    case 10:
+      highscore = hseasy;
+      break;
+    case 1:
+      highscore = hshard;
+      break;
+    case 5:
+      highscore = hsnorm;
+      break;
+  }
+  var hsleft = highscore - score;
+  if (hsleft < 0) hsleft = 0;
+  hsleft = String(hsleft).padStart(6, "0");
+  document.getElementById("scoreLeftNumber").innerHTML = hsleft;
 }
 function keepGoing(opt) {
   switch (opt) {
     case 0:
       currentMenu = 12;
+      menuSelected[11] = 0;
+      for (var i = 0; i < menuSelectMax[11]; i++) {
+        document.getElementById(`menu${12}Select${i}`).innerHTML = "";
+      }
+      var nms = menuSelected[11];
+      document.getElementById(`menu${12}Select${nms}`).innerHTML =
+        `<img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage">`;
       document.getElementById("gameOver").style.display = "none";
       document.getElementById("keepGoing").style.display = "block";
       break;
@@ -486,21 +583,23 @@ function keepGoing(opt) {
 }
 
 function killInvincibility() {
-  stopBgMusic();
-  invincibility = false;
-  invincibilityWarn = false;
-  invincibilityMusicSlow = false;
-  invincibilityCount = 0;
-  timeouts.invincibility = 0;
-  timeouts.invincibilityWarn = 0;
-  timeouts.invincibilityMusicSlow = 0;
-  window.clearInterval(timeouts.bgmusicStop);
-  if (sound[1]) {
-    document.getElementById("bgInvincibility").pause();
-    document.getElementById("bgInvincibility").currentTime = 0.0;
-    playBgMusic();
+  if (!egg) {
+    stopBgMusic();
+    invincibility = false;
+    invincibilityWarn = false;
+    invincibilityMusicSlow = false;
+    invincibilityCount = 0;
+    timeouts.invincibility = 0;
+    timeouts.invincibilityWarn = 0;
+    timeouts.invincibilityMusicSlow = 0;
+    window.clearInterval(timeouts.bgmusicStop);
+    if (sound[1]) {
+      document.getElementById("bgInvincibility").pause();
+      document.getElementById("bgInvincibility").currentTime = 0.0;
+      playBgMusic();
+    }
+    flashInvincibility();
   }
-  flashInvincibility();
 }
 
 function gamePadKeyListen() {
@@ -508,7 +607,7 @@ function gamePadKeyListen() {
     var keyP = gamepadpressed.indexOf(true);
     if (keyP != -1) {
       if (settingGamepadControls != 0) {
-        var keyName = gamepadCodes[keyP];
+        var keyName = gamepadCodes[gamepadMapping][keyP];
         switch (settingGamepadControls) {
           case 1:
             if (
@@ -649,6 +748,8 @@ function handleKeyPress(e) {
             controls.pause != e.keyCode
           ) {
             controls.flyleft = e.keyCode;
+          } else {
+            openAlert("FAILED TO SET CONTROL", "Key is already used.", "red");
           }
           break;
         case 2:
@@ -660,6 +761,8 @@ function handleKeyPress(e) {
             controls.pause != e.keyCode
           ) {
             controls.flyright = e.keyCode;
+          } else {
+            openAlert("FAILED TO SET CONTROL", "Key is already used.", "red");
           }
           break;
         case 3:
@@ -671,6 +774,8 @@ function handleKeyPress(e) {
             controls.pause != e.keyCode
           ) {
             controls.down = e.keyCode;
+          } else {
+            openAlert("FAILED TO SET CONTROL", "Key is already used.", "red");
           }
           break;
         case 4:
@@ -682,6 +787,8 @@ function handleKeyPress(e) {
             controls.pause != e.keyCode
           ) {
             controls.up = e.keyCode;
+          } else {
+            openAlert("FAILED TO SET CONTROL", "Key is already used.", "red");
           }
           break;
         case 5:
@@ -694,6 +801,8 @@ function handleKeyPress(e) {
             controls.menuenter != e.keyCode
           ) {
             controls.weapon = e.keyCode;
+          } else {
+            openAlert("FAILED TO SET CONTROL", "Key is already used.", "red");
           }
           break;
         case 6:
@@ -706,6 +815,8 @@ function handleKeyPress(e) {
             controls.weapon != e.keyCode
           ) {
             controls.pause = e.keyCode;
+          } else {
+            openAlert("FAILED TO SET CONTROL", "Key is already used.", "red");
           }
           break;
         case 7:
@@ -716,9 +827,13 @@ function handleKeyPress(e) {
             controls.weapon != e.keyCode
           ) {
             controls.menuenter = e.keyCode;
+          } else {
+            openAlert("FAILED TO SET CONTROL", "Key is already used.", "red");
           }
           break;
       }
+    } else {
+      openAlert("FAILED TO SET CONTROL", "Invalid key.", "red");
     }
     settingControls = 0;
     updateControls();
@@ -741,6 +856,10 @@ function handleKeyPress(e) {
 document.addEventListener("keyup", handleKeyPress);
 
 function openAlert(head, text, type) {
+  if (head.search("Welcome") == -1) {
+    document.getElementById("closeAlert").innerHTML = "Click to dismiss.";
+  }
+  welcomeAlertOpen = false;
   window.clearTimeout(timeouts.alert);
   document.getElementById("alertTitle").innerHTML = head;
   document.getElementById("alertText").innerHTML = text;
@@ -762,16 +881,24 @@ function openAlert(head, text, type) {
   var ab = document.getElementById("alertBox");
   ab.style.backgroundColor = col;
   ab.style.opacity = "1";
-  timeouts.alert = setTimeout(closeAlert, 10000);
+  timeouts.alert = setTimeout(closeAlert, 20000);
 }
 
 function closeAlert() {
-  sessionStorage.setItem("nowelcome", "true");
   window.clearTimeout(timeouts.alert);
   document.getElementById("alertBox").style.opacity = "0";
 }
 
+function closeAlertC() {
+  if (welcomeAlertOpen == true) {
+    settingsData.nowelcome = "true";
+    localStorage.setItem("settings", JSON.stringify(settingsData));
+  }
+  closeAlert();
+}
+
 function playBgMusic() {
+  var rand;
   invincibilityMusicSlow = false;
   window.clearTimeout(timeouts.bgmusicStop);
   for (i = 0; i < 4; i++) {
@@ -779,9 +906,14 @@ function playBgMusic() {
     document.getElementById("bg" + i).currentTime = 0.0;
   }
   document.getElementById("bgBoss1").pause();
+  document.getElementById("egg").pause();
+  if (egg) {
+    rand = "egg";
+  } else {
+    rand = "bg" + Math.floor(Math.random() * 4);
+  }
   if (sound[0]) {
-    var rand = "bg" + Math.floor(Math.random() * 4);
-    if (isBossFight) {
+    if (isBossFight && !egg) {
       rand = "bgBoss1";
     }
     document.getElementById(rand).volume = 0.7;
@@ -814,7 +946,7 @@ function stopBgMusic() {
   musStopCount = 0.7;
   window.clearTimeout(timeouts.bgmusic);
   var i;
-  if (isBossFight) {
+  if (isBossFight && !egg) {
     timeouts.bgmusicStop = window.setInterval(function () {
       var i;
       if (musStopCount > 0) {
@@ -835,10 +967,17 @@ function stopBgMusic() {
         for (i = 0; i < 4; i++) {
           document.getElementById("bg" + i).volume = musStopCount;
         }
+        if (!egg) {
+          document.getElementById("egg").volume = musStopCount;
+        }
       } else {
         for (i = 0; i < 4; i++) {
           document.getElementById("bg" + i).pause();
           document.getElementById("bg" + i).currentTime = 0.0;
+        }
+        if (!egg) {
+          document.getElementById("egg").pause();
+          document.getElementById("egg").currentTime = 0.0;
         }
         invincibilityMusicSlow = false;
         window.clearInterval(timeouts.bgmusicStop);
@@ -855,10 +994,6 @@ function stopInvincibilityMusic() {
 function mainMenu(option) {
   document.getElementById("mainMenu").style.display = "none";
   switch (option) {
-    case 0:
-      document.getElementById("story").style.display = "block";
-      currentMenu = 0;
-      break;
     case 1:
       document.getElementById("settingsMenu").style.display = "block";
       currentMenu = 2;
@@ -870,7 +1005,8 @@ function mainMenu(option) {
   }
 }
 function updateControls() {
-  sessionStorage.setItem("controls", JSON.stringify(controls));
+  settingsData.controls = JSON.stringify(controls);
+  localStorage.setItem("settings", JSON.stringify(settingsData));
   document.getElementById("controls1").innerHTML = keyCodes[controls.flyleft];
   document.getElementById("controls2").innerHTML = keyCodes[controls.flyright];
   document.getElementById("controls3").innerHTML = keyCodes[controls.down];
@@ -880,14 +1016,15 @@ function updateControls() {
   document.getElementById("controls7").innerHTML = keyCodes[controls.menuenter];
 }
 function updateGamepadControls() {
-  sessionStorage.setItem("gcontrols", JSON.stringify(gamePadControls));
-  document.getElementById("gcontrols1").innerHTML = gamepadCodes[gamePadControls.flyleft];
-  document.getElementById("gcontrols2").innerHTML = gamepadCodes[gamePadControls.flyright];
-  document.getElementById("gcontrols3").innerHTML = gamepadCodes[gamePadControls.down];
-  document.getElementById("gcontrols4").innerHTML = gamepadCodes[gamePadControls.up];
-  document.getElementById("gcontrols5").innerHTML = gamepadCodes[gamePadControls.weapon];
-  document.getElementById("gcontrols6").innerHTML = gamepadCodes[gamePadControls.pause];
-  document.getElementById("gcontrols7").innerHTML = gamepadCodes[gamePadControls.menuenter];
+  settingsData.gcontrols = JSON.stringify(gamePadControls);
+  localStorage.setItem("settings", JSON.stringify(settingsData));
+  document.getElementById("gcontrols1").innerHTML = gamepadCodes[gamepadMapping][gamePadControls.flyleft];
+  document.getElementById("gcontrols2").innerHTML = gamepadCodes[gamepadMapping][gamePadControls.flyright];
+  document.getElementById("gcontrols3").innerHTML = gamepadCodes[gamepadMapping][gamePadControls.down];
+  document.getElementById("gcontrols4").innerHTML = gamepadCodes[gamepadMapping][gamePadControls.up];
+  document.getElementById("gcontrols5").innerHTML = gamepadCodes[gamepadMapping][gamePadControls.weapon];
+  document.getElementById("gcontrols6").innerHTML = gamepadCodes[gamepadMapping][gamePadControls.pause];
+  document.getElementById("gcontrols7").innerHTML = gamepadCodes[gamepadMapping][gamePadControls.menuenter];
 }
 function setControls(n) {
   var sc = document.getElementById("setControls");
@@ -898,7 +1035,7 @@ function setControls(n) {
       break;
     case 8:
       sc.style.display = "none";
-      currentMenu = 2;
+      currentMenu = 19;
       break;
     default:
       settingControls = n;
@@ -920,7 +1057,7 @@ function setGamepadControls(n) {
       break;
     case 8:
       sc.style.display = "none";
-      currentMenu = 2;
+      currentMenu = 19;
       break;
     default:
       settingGamepadControls = n;
@@ -953,10 +1090,10 @@ function settingsMenu(option) {
         sound[1] = true;
         te = "SOUND - ON";
       }
-      sessionStorage.setItem("sound0", sound[0].toString());
-      sessionStorage.setItem("sound1", sound[1].toString());
       document.getElementById("sound").innerHTML = te;
-      document.getElementById("sound2").innerHTML = te;
+      settingsData.sound0 = sound[0].toString();
+      settingsData.sound1 = sound[1].toString();
+      localStorage.setItem("settings", JSON.stringify(settingsData));
       break;
     case 1:
       var bt = document.getElementById("difficulty");
@@ -974,57 +1111,91 @@ function settingsMenu(option) {
           bt.innerHTML = "DIFFICULTY - NORMAL";
           break;
       }
-      sessionStorage.setItem("insql", String(initialSquadronLives));
+      settingsData.insql = String(initialSquadronLives);
+      localStorage.setItem("settings", JSON.stringify(settingsData));
       squadronLives = initialSquadronLives;
       updateSquadronLives();
       break;
     case 2:
-      setControls(0);
+      controlsSettingsMenu(0);
       break;
     case 3:
-      if (gamepadConnected) {
-        setGamepadControls(0);
+      currentMenu = 17;
+      document.getElementById("settingsMenu").style.display = "none";
+      document.getElementById("clearStorageConfirm").style.display = "block";
+      if (egg) {
+        document.getElementById("clearStorageMessage").innerHTML +=
+          " THIS WILL ALSO REMOVE THE EFFECTS OF THE EASTER EGG.";
       }
       break;
     case 4:
-      sessionStorage.clear();
-      window.location.reload();
-      break;
-    case 5:
       document.getElementById("settingsMenu").style.display = "none";
       document.getElementById("mainMenu").style.display = "block";
       currentMenu = 1;
       break;
   }
 }
+function autosaveChange() {
+  autosaveTimeFactor += 5;
+  if (autosaveTimeFactor > 20) {
+    autosaveTimeFactor = 0;
+  }
+  settingsData.autosaveTimeFactor = autosaveTimeFactor.toString();
+  localStorage.setItem("settings", JSON.stringify(settingsData));
+  if (autosaveTimeFactor == 0) {
+    document.getElementById("autosaveDuration").innerHTML = "AUTOSAVE DISABLED";
+    document.getElementById("autosaveDuration2").innerHTML = "AUTOSAVE DISABLED";
+  } else {
+    document.getElementById("autosaveDuration").innerHTML = `AUTOSAVE DURATION: ${autosaveTimeFactor} secs`;
+    document.getElementById("autosaveDuration2").innerHTML = `AUTOSAVE DURATION: ${autosaveTimeFactor} secs`;
+  }
+  autosaveTime = Math.ceil(autosaveTimeFactor * frameRateS);
+}
+function controlsSettingsMenu(option) {
+  switch (option) {
+    case 0:
+      currentMenu = 19;
+      document.getElementById("settingsMenu").style.display = "none";
+      document.getElementById("controlsSettingsMenu").style.display = "block";
+      break;
+    case 1:
+      setControls(0);
+      break;
+    case 2:
+      if (gamepadConnected) {
+        setGamepadControls(0);
+      } else {
+        openAlert(
+          "CONNECT A GAMEPAD",
+          "No gamepads are currently detected. If you have connected one, try pressing a button.",
+          "red"
+        );
+      }
+      break;
+    case 3:
+      currentMenu = 2;
+      document.getElementById("settingsMenu").style.display = "block";
+      document.getElementById("controlsSettingsMenu").style.display = "none";
+      break;
+  }
+}
+function clearSettings(n) {
+  switch (n) {
+    case 0:
+      currentMenu = 2;
+      document.getElementById("settingsMenu").style.display = "block";
+      document.getElementById("clearStorageConfirm").style.display = "none";
+      break;
+    case 1:
+      localStorage.clear();
+      window.location.reload();
+      break;
+  }
+}
 function inGameSettingsMenu(option) {
   switch (option) {
     case 0:
-      var te;
-      if (sound[0] && sound[1]) {
-        sound[0] = true;
-        sound[1] = false;
-        te = "SOUND - MUSIC ONLY";
-      } else if (sound[0] && !sound[1]) {
-        sound[0] = false;
-        sound[1] = true;
-        te = "SOUND - SFX ONLY";
-        stopBgMusic();
-      } else if (!sound[0] && sound[1]) {
-        sound[0] = false;
-        sound[1] = false;
-        te = "SOUND - OFF";
-        stopBgMusic();
-      } else {
-        sound[0] = true;
-        sound[1] = true;
-        te = "SOUND - ON";
-        playBgMusic();
-      }
-      sessionStorage.setItem("sound0", sound[0].toString());
-      sessionStorage.setItem("sound1", sound[1].toString());
-      document.getElementById("sound").innerHTML = te;
-      document.getElementById("sound2").innerHTML = te;
+      autosaveChange();
       break;
     case 1:
       document.getElementById("inGameSettingsMenu").style.display = "none";
@@ -1165,31 +1336,6 @@ function credits(option) {
       break;
   }
 }
-function story(option) {
-  switch (option) {
-    case 0:
-      document.getElementById("story").style.display = "none";
-      document.getElementById("mainMenu").style.display = "block";
-      currentMenu = 1;
-      break;
-    case 1:
-      if (storySlide < 5) {
-        document.getElementById("story-" + storySlide).style.display = "none";
-        storySlide += 1;
-        document.getElementById("story-" + storySlide).style.display = "block";
-      } else {
-        startGame();
-      }
-      break;
-    case 2:
-      if (storySlide > 1) {
-        document.getElementById("story-" + storySlide).style.display = "none";
-        storySlide -= 1;
-        document.getElementById("story-" + storySlide).style.display = "block";
-      }
-      break;
-  }
-}
 
 function init() {
   if (
@@ -1317,7 +1463,7 @@ function scalePage() {
           checkResumeRequirements();
         }
       } else {
-        if (currentMenu == 1 || currentMenu == 2 || currentMenu == 4) {
+        if (currentMenu == 1 || currentMenu == 2 || currentMenu == 4 || currentMenu > 14) {
           changeTitle("Error");
           document.getElementById("resizedMenu").style.display = "block";
           oldMenuSelected = currentMenu;
@@ -1338,7 +1484,6 @@ function scalePage() {
 
 function scaleVariables() {
   var i;
-  refreshRate = refreshRate * globalScaleFactor;
   parallaxSpeed = parallaxSpeed * globalScaleFactor;
   for (i = 0; i < missileSpeeds.length; i++) {
     missileSpeeds[i] = missileSpeeds[i] * globalScaleFactor;
@@ -1632,12 +1777,27 @@ function soundLoad(ev) {
         }
       });
       $(".enemy").each(function () {
-        var name, powerupElement, powerupN, powerupName;
+        var name, powerupElement, powerupN, powerupName, eggElement;
         var me = $(this)[0].enemy;
         var isPowerupAsteroid = $(this).attr("class").search("powerupAsteroid") != -1;
+        var isEgg = $(this).attr("class").search("eggAsteroid") != -1;
         var isShooting = $(this).attr("class").search("shootingEnemy") != -1;
         if (me.exploded) {
           this.enemy.update();
+          if (isEgg && me.explodeCount == 0 && !egg) {
+            name = "egg_" + new Date().getTime();
+            $("#enemies").addSprite(name, {
+              animation: "",
+              posx: $(this).x(),
+              posy: $(this).y(),
+              width: powerupWidth,
+              height: powerupHeight
+            });
+            eggElement = $("#" + name);
+            eggElement.addClass("egg");
+            eggElement[0].style.backgroundImage = `url('./assets/images/hq/egg.png')`;
+            eggElement[0].egg = new Egg(eggElement, name);
+          }
           if (isPowerupAsteroid && me.explodeCount == 0) {
             name = "powerup_" + new Date().getTime();
             $("#enemies").addSprite(name, {
@@ -1757,6 +1917,18 @@ function soundLoad(ev) {
           if (areColliding($(this), $(".selectedShip"))) {
             $(this).remove();
             powerupCollect(powerupN);
+          }
+        }
+      });
+      $(".egg").each(function () {
+        var me = $(this)[0].egg;
+        this.egg.update();
+        if ($(this).y() > gameHeight || clearGame) {
+          $(this).remove();
+        } else {
+          if (areColliding($(this), $(".selectedShip"))) {
+            $(this).remove();
+            eggCollect();
           }
         }
       });
@@ -1996,21 +2168,23 @@ function soundLoad(ev) {
         }
       }
       if (invincibility && !pauseGameStuff && isAWorldActive) {
-        if (timeouts.invincibilityWarn >= invincibilityWarnTime) {
-          invincibilityWarn = true;
-          invincibilityFlash[1] = invincibilityFlash[0];
-          stopInvincibilityMusic();
-          timeouts.invincibilityWarn = 0;
-        } else {
-          timeouts.invincibilityWarn++;
-        }
-        if (timeouts.invincibility >= invincibilityTime) {
-          invincibility = false;
-          invincibilityWarn = false;
-          flashInvincibility();
-          timeouts.invincibility = 0;
-        } else {
-          timeouts.invincibility++;
+        if (!egg) {
+          if (timeouts.invincibilityWarn >= invincibilityWarnTime) {
+            invincibilityWarn = true;
+            invincibilityFlash[1] = invincibilityFlash[0];
+            stopInvincibilityMusic();
+            timeouts.invincibilityWarn = 0;
+          } else {
+            timeouts.invincibilityWarn++;
+          }
+          if (timeouts.invincibility >= invincibilityTime) {
+            invincibility = false;
+            invincibilityWarn = false;
+            flashInvincibility();
+            timeouts.invincibility = 0;
+          } else {
+            timeouts.invincibility++;
+          }
         }
         if (invincibilityWarn) {
           if (invincibilityCount >= invincibilityFlash[1]) {
@@ -2193,7 +2367,12 @@ function soundLoad(ev) {
       } else {
         timeouts.bossShieldRecharge++;
       }
-
+      if (timeouts.autosave >= autosaveTime && autosaveTimeFactor != 0) {
+        stateStorage("autosave", currentGameSlot);
+        timeouts.autosave = 0;
+      } else {
+        timeouts.autosave++;
+      }
       var enemy;
       if (timeouts.enemyAmmoRecharge == enemyWeaponRespawnTime) {
         $(".enemy").each(function () {
@@ -2230,6 +2409,16 @@ function soundLoad(ev) {
         timeouts.planetTimer = 0;
       } else {
         timeouts.planetTimer++;
+      }
+      if (egg && !eggUsed && !eggUsedAtStart) {
+        powerupCollect(5);
+        eggGraphics();
+        eggUsed = true;
+        invincibility = true;
+        score += 500000;
+        updateScore();
+        updateSquadronLives();
+        stopInvincibilityMusic();
       }
       if (!stopWorldCounter) {
         spawnRun(worldNumber - 1, gameTime);
@@ -2314,7 +2503,7 @@ function soundLoad(ev) {
           document.getElementById("splashOtherh2").innerHTML = `<button
           onclick="unlockGame()"
           class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
-          <b>CLICK TO BEGIN</b>
+          <b>CLICK HERE TO BEGIN</b>
         </button>`;
         }, 500);
       }
@@ -2324,15 +2513,34 @@ function soundLoad(ev) {
 
 function unlockGame() {
   changeTitle("Main Menu");
+  var im;
+  for (var i = 1; i < 5; i++) {
+    im = i - 1;
+    try {
+      if (JSON.parse(localStorage.getItem("saveSlot" + i))[0] != "true") {
+        $("#menu21Button" + im).addClass("greyedOut");
+      } else {
+        slotsAvail = true;
+        $("#menu20Button" + im).addClass("clearSS");
+        document.getElementById("menu20Button" + im).innerHTML = "<b>SLOT " + i + " (IN USE)</b>";
+      }
+    } catch {
+      $("#menu21Button" + im).addClass("greyedOut");
+    }
+  }
+  if (!slotsAvail) {
+    $("#menu1Button1").addClass("greyedOut");
+  }
   document.getElementById("loading").style.display = "none";
   document.getElementById("mainMenu").style.display = "block";
   currentMenu = 1;
-  if (sessionStorage.getItem("nowelcome") != "true") {
+  if (settingsData.nowelcome != "true") {
     openAlert(
       "Welcome to Squadron!",
-      "Use the UP and DOWN ARROWS to move the cursor and press SHIFT to select. You can change the controls in the settings menu.",
-      "orange"
+      "If this is your first time, use the UP and DOWN ARROWS to move the cursor and press SHIFT to select. You can change and view the controls in the settings menu.",
+      "grey"
     );
+    welcomeAlertOpen = true;
   }
 }
 
@@ -2371,6 +2579,26 @@ function flashInvincibility() {
   document.documentElement.style.setProperty("--invincibility-col", invincibilityCol);
 }
 
+function eggCollect() {
+  openAlert("YOU FOUND AN EASTER EGG!", "A 1 in 400,000 chance! These effects will last FOREVER. Enjoy!", "green");
+  egg = true;
+  settingsData.egg = "true";
+  localStorage.setItem("settings", JSON.stringify(settingsData));
+  if (sound[1]) {
+    playSound("powerupCollect");
+  }
+  if (sound[0]) {
+    playBgMusic();
+  }
+}
+
+function eggGraphics() {
+  document.documentElement.style.setProperty("--menu-bg", "url('./assets/animations/hq/menuloop-egg.gif')");
+  document.getElementById("titleLogo").src = "./assets/animations/hq/title-logo-individualspin-egg.gif";
+  document.getElementById("radar").style.backgroundImage = "url('./assets/images/hq/radar-egg.png')";
+  document.getElementById("version").innerHTML += " (EGG EDITION)";
+}
+
 function powerupCollect(n) {
   if (n != 5 && n != 4 && sound[1]) {
     playSound("powerupCollect");
@@ -2405,33 +2633,37 @@ function powerupCollect(n) {
     case 4:
       score += 8000;
       updateScore();
-      if (!invincibility) {
-        invincibility = true;
-        invincibilityWarn = false;
-        invincibilityMusicSlow = false;
-        invincibilityCount = 0;
-        timeouts.invincibility = 0;
-        timeouts.invincibilityWarn = 0;
-        timeouts.invincibilityMusicSlow = 0;
-        stopBgMusic();
-        if (sound[0]) {
-          invincibilityMusic();
+      if (!egg) {
+        if (!invincibility) {
+          invincibility = true;
+          invincibilityWarn = false;
+          invincibilityMusicSlow = false;
+          invincibilityCount = 0;
+          timeouts.invincibility = 0;
+          timeouts.invincibilityWarn = 0;
+          timeouts.invincibilityMusicSlow = 0;
+          stopBgMusic();
+          if (sound[0]) {
+            invincibilityMusic();
+          }
+        } else {
+          stopBgMusic();
+          invincibility = true;
+          invincibilityWarn = false;
+          invincibilityMusicSlow = false;
+          invincibilityCount = 0;
+          timeouts.invincibility = 0;
+          timeouts.invincibilityWarn = 0;
+          timeouts.invincibilityMusicSlow = 0;
+          window.clearInterval(timeouts.bgmusicStop);
+          if (sound[1]) {
+            document.getElementById("bgInvincibility").pause();
+            document.getElementById("bgInvincibility").currentTime = 0.0;
+            invincibilityMusic();
+          }
         }
-      } else {
-        stopBgMusic();
-        invincibility = true;
-        invincibilityWarn = false;
-        invincibilityMusicSlow = false;
-        invincibilityCount = 0;
-        timeouts.invincibility = 0;
-        timeouts.invincibilityWarn = 0;
-        timeouts.invincibilityMusicSlow = 0;
-        window.clearInterval(timeouts.bgmusicStop);
-        if (sound[1]) {
-          document.getElementById("bgInvincibility").pause();
-          document.getElementById("bgInvincibility").currentTime = 0.0;
-          invincibilityMusic();
-        }
+      } else if (sound[1]) {
+        playSound("powerupCollect");
       }
       break;
     case 5:
@@ -2460,7 +2692,9 @@ function powerupCollect(n) {
 function startGame() {
   gameInterrups.manualPause = false;
   updateSquadronLives();
+  document.getElementById("confirmPlayMenu").style.display = "none";
   document.getElementById("mainMenu").style.display = "none";
+  document.getElementById("recallSlot").style.display = "none";
   currentMenu = 0;
   playBgMusic();
   changeTitle("Game");
@@ -2617,7 +2851,14 @@ function updateWeaponAmmunition() {
 }
 
 window.addEventListener("gamepadconnected", function (e) {
-  gamePadConnect(navigator.getGamepads()[0].id);
+  var i = navigator.getGamepads()[0].id;
+  var tpe = "default";
+  if(i.search("Xbox 360") != -1){
+   tpe =  "Xbox 360";
+  }else if(i.search("Vendor: 081f Product: e401") != -1){
+    tpe = "081f:e401";
+  }
+  gamePadConnect(i.split("(")[0], tpe);
   gamePadJustPressed = {
     flyleft: true,
     flyright: true,
@@ -2635,13 +2876,15 @@ window.addEventListener("gamepaddisconnected", function (e) {
     gamepadConnected = false;
     pauseGame();
     openAlert("Gamepad Disconnected.", "A gamepad had been disconnected.", "red");
-    document.getElementById("gamepadStatus").innerHTML = "NO GAMEPAD CONNECTED";
+    $("#menu19Button1").addClass("greyedOut");
   }
 });
 
-function gamePadConnect(id) {
+function gamePadConnect(id, type) {
   openAlert("Gamepad Connected.", id + " Connected.", "green");
-  document.getElementById("gamepadStatus").innerHTML = "SET GAMEPAD CONTROLS";
+  $("#menu19Button1").removeClass("greyedOut");
+  gamepadMapping = type;
+  updateGamepadControls();
 }
 
 function checkGamepads() {
@@ -2664,8 +2907,7 @@ function updatePlanetDistance() {
     document.getElementById("remainingDistanceToPlanet").innerHTML = `YOU ARE AT A PLANET`;
     newWorld();
   } else {
-    document.getElementById("remainingDistanceToPlanet").innerHTML =
-      `PLANET INCOMING IN ${remainingDistanceToPlanet}KM`;
+    document.getElementById("remainingDistanceToPlanet").innerHTML = `${remainingDistanceToPlanet}KM TO PLANET`;
   }
   if (remainingDistanceToPlanet <= (gameHeight * 1.3) / enemySpeeds[0] / worldMeterTime) {
     stopSpawn = true;
@@ -2730,9 +2972,17 @@ function newWorldShipCollect() {
   var bossElement = $("#" + name);
   bossElement.addClass("boss");
   if (worldNumber != 6) {
-    $("#bossBody").css("backgroundImage", `url('./assets/images/hq/zeta-${worldNumber}-top.png')`);
+    if (!egg) {
+      $("#bossBody").css("backgroundImage", `url('./assets/images/hq/zeta-${worldNumber}-top.png')`);
+    } else {
+      $("#bossBody").css("backgroundImage", `url('./assets/images/hq/zeta-boss-top-egg.png')`);
+    }
   } else {
-    $("#bossBody").css("backgroundImage", `url('./assets/images/hq/zeta-6-top-min.png')`);
+    if (!egg) {
+      $("#bossBody").css("backgroundImage", `url('./assets/images/hq/zeta-6-top-min.png')`);
+    } else {
+      $("#bossBody").css("backgroundImage", `url('./assets/images/hq/zeta-final-boss-top-egg.png')`);
+    }
   }
   bossElement[0].boss = new Boss(bossElement, wnm);
   $(`#bossHealthBar`).addClass("healthBar generalStatusBar");
@@ -2761,15 +3011,222 @@ function newWorld() {
   clearGame = true;
   stopWorldCounter = true;
 }
-
-function newWorldBossDone() {
-  if (!invincibility) {
-    stopBgMusic();
-    isBossFight = false;
-    if (sound[0]) {
-      playBgMusic();
+function playMenu(n) {
+  switch (n) {
+    case 0:
+      currentMenu = 18;
+      document.getElementById("newSlot").style.display = "none";
+      document.getElementById("playMenu").style.display = "block";
+      break;
+    case 1:
+      confirmPlayMenu(0);
+      break;
+    case 2:
+      openAlert("WORK IN PROGRESS", "This feature is not yet working. Apologies for the inconvenience.", "red");
+      break;
+    case 3:
+      currentMenu = 20;
+      document.getElementById("newSlot").style.display = "block";
+      document.getElementById("playMenu").style.display = "none";
+      break;
+  }
+}
+function confirmPlayMenu(n) {
+  switch (n) {
+    case 0:
+      currentMenu = 22;
+      document.getElementById("playMenu").style.display = "none";
+      var t;
+      switch (initialSquadronLives) {
+        case 10:
+          t = "EASY";
+          break;
+        case 1:
+          t = "HARD";
+          break;
+        case 5:
+          t = "NORMAL";
+          break;
+      }
+      if (sound[0] && sound[1]) {
+        document.getElementById("confirmSound").innerHTML = "SOUND IS ON";
+      } else if (sound[0] && !sound[1]) {
+        document.getElementById("confirmSound").innerHTML = "ONLY MUSIC IS ON";
+      } else if (!sound[0] && sound[1]) {
+        document.getElementById("confirmSound").innerHTML = "ONLY SFX ARE ON";
+      } else {
+        document.getElementById("confirmSound").innerHTML = "SOUND IS OFF";
+      }
+      document.getElementById("confirmMode").innerHTML = "1 PLAYER";
+      document.getElementById("confirmDifficulty").innerHTML = t;
+      document.getElementById("confirmSlot").innerHTML = currentGameSlot;
+      document.getElementById("confirmPlayMenu").style.display = "block";
+      break;
+    case 1:
+      startGame();
+      break;
+    case 2:
+      currentMenu = 18;
+      document.getElementById("confirmPlayMenu").style.display = "none";
+      document.getElementById("playMenu").style.display = "block";
+      break;
+    case 3:
+      currentMenu = 1;
+      document.getElementById("confirmPlayMenu").style.display = "none";
+      document.getElementById("mainMenu").style.display = "block";
+      break;
+  }
+}
+function chooseSlot(n) {
+  switch (n) {
+    case 0:
+      currentMenu = 20;
+      document.getElementById("newSlot").style.display = "block";
+      document.getElementById("mainMenu").style.display = "none";
+      break;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      currentGameSlot = n;
+      playMenu(0);
+      break;
+    case 5:
+      currentMenu = 1;
+      document.getElementById("newSlot").style.display = "none";
+      document.getElementById("mainMenu").style.display = "block";
+      break;
+  }
+}
+function recallSlot(n) {
+  switch (n) {
+    case 0:
+      if (slotsAvail) {
+        currentMenu = 21;
+        document.getElementById("recallSlot").style.display = "block";
+        document.getElementById("mainMenu").style.display = "none";
+      } else {
+        openAlert("NO SAVED GAMES", "There are no saved games to load.", "red");
+      }
+      break;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      currentGameSlot = n;
+      stateDo("recall");
+      break;
+    case 5:
+      currentMenu = 1;
+      document.getElementById("recallSlot").style.display = "none";
+      document.getElementById("mainMenu").style.display = "block";
+      break;
+  }
+}
+function stateDo(opt) {
+  switch (opt) {
+    case "recall":
+      stateStorage("recall", currentGameSlot);
+      break;
+    case "save":
+      stateStorage("save", currentGameSlot);
+      break;
+  }
+}
+function stateStorage(opt, slot) {
+  var ss1;
+  if (opt == "recall") {
+    ss1 = JSON.parse(localStorage.getItem("saveSlot" + slot));
+    try {
+      if (ss1[0] == "true") {
+        playerHealths = ss1[1];
+        playerShields = ss1[2];
+        weaponAmounts = ss1[3];
+        gameTime = ss1[4];
+        levels = ss1[5];
+        score = ss1[6];
+        squadronLives = ss1[7];
+        worldNumber = ss1[8];
+        remainingDistanceToPlanet = ss1[9];
+        playersUnlocked = ss1[10];
+        playersIReallyUnlocked = ss1[11];
+        selectedShip = ss1[12];
+        initialSquadronLives = ss1[13];
+        updateShieldBars();
+        updateHealthbars();
+        updateShieldBar();
+        updateHealthbar();
+        updateSquadronLives();
+        updateShipDetails();
+        updateShipsInGame();
+        updateScore();
+        updatePlanetDistance();
+        updateWeaponAmmunition();
+        updateWorldCount();
+        openAlert("PREVIOUS GAME LOADED SUCCESSFULLY", "The previous game loaded successfully.", "green");
+        startGame();
+      } else {
+        openAlert("NO SAVED GAME", "There is no saved game to load for this slot.", "red");
+      }
+    } catch {
+      openAlert("NO SAVED GAME", "There is no saved game to load for this slot.", "red");
+    }
+  } else if (opt == "save") {
+    if (remainingDistanceToPlanet > 30) {
+      try {
+        ss1 = ["true"];
+        ss1.push(playerHealths);
+        ss1.push(playerShields);
+        ss1.push(weaponAmounts);
+        ss1.push(gameTime);
+        ss1.push(levels);
+        ss1.push(score);
+        ss1.push(squadronLives);
+        ss1.push(worldNumber);
+        ss1.push(remainingDistanceToPlanet);
+        ss1.push(playersUnlocked);
+        ss1.push(playersIReallyUnlocked);
+        ss1.push(selectedShip);
+        ss1.push(initialSquadronLives);
+        localStorage.setItem("saveSlot" + slot, JSON.stringify(ss1));
+        openAlert("GAME SAVED SUCCESSFULLY", "The game was successfully saved to slot " + slot + ".", "green");
+      } catch {
+        openAlert("FAILED TO SAVE GAME", "The game failed to save.", "red");
+      }
+    } else {
+      openAlert(
+        "FAILED TO SAVE GAME",
+        "The game was unable to be saved due to your current position. You can only save with more than 30 km left until a planet.",
+        "red"
+      );
+    }
+  } else if (opt == "autosave") {
+    if (remainingDistanceToPlanet > 30) {
+      try {
+        ss1 = ["true"];
+        ss1.push(playerHealths);
+        ss1.push(playerShields);
+        ss1.push(weaponAmounts);
+        ss1.push(gameTime);
+        ss1.push(levels);
+        ss1.push(score);
+        ss1.push(squadronLives);
+        ss1.push(worldNumber);
+        ss1.push(remainingDistanceToPlanet);
+        ss1.push(playersUnlocked);
+        ss1.push(playersIReallyUnlocked);
+        ss1.push(selectedShip);
+        ss1.push(initialSquadronLives);
+        localStorage.setItem("saveSlot" + slot, JSON.stringify(ss1));
+      } catch {
+        openAlert("FAILED TO AUTOSAVE GAME", "The game failed to save.", "red");
+      }
     }
   }
+}
+function newWorldBossDone() {
+  stopBgMusic();
+  isBossFight = false;
   gameInterrups.manualPause = true;
   stopSpawn = false;
   clearGame = true;
@@ -2784,6 +3241,7 @@ function newWorldBossDone() {
       worldNumber++;
       if (worldNumber == 7) {
         document.getElementById("upScroller").style.display = "none";
+        egg = false;
         stopBgMusic();
         currentMenu = 8;
         if (sound[1]) {
@@ -2791,18 +3249,42 @@ function newWorldBossDone() {
         }
         var hsMessage;
         var scoreUpd = String(score).padStart(6, "0");
-        var highscore = localStorage.getItem("hs");
-        if (highscore == undefined || highscore == null) highscore = "0";
+        var highscore;
+        switch (initialSquadronLives) {
+          case 10:
+            highscore = hseasy;
+            break;
+          case 1:
+            highscore = hshard;
+            break;
+          case 5:
+            highscore = hsnorm;
+            break;
+        }
         var highscoreN = Number(highscore);
         if (score > highscoreN) {
           hsMessage = "You set a new highscore with a score of " + scoreUpd + "!";
-          localStorage.setItem("hs", score.toString());
+          switch (initialSquadronLives) {
+            case 10:
+              localStorage.setItem("hs_easy", score.toString());
+              break;
+            case 1:
+              localStorage.setItem("hs_hard", score.toString());
+              break;
+            case 5:
+              localStorage.setItem("hs_norm", score.toString());
+              break;
+          }
         } else {
           hsMessage = "The current highscore is " + highscore.padStart(6, "0") + ". You scored " + scoreUpd + ".";
         }
         document.getElementById("finalScore").innerHTML = hsMessage;
         document.getElementById("gameWon").style.display = "block";
+        localStorage.removeItem("saveSlot" + currentGameSlot);
       } else {
+        if (sound[0]) {
+          playBgMusic();
+        }
         currentMenu = 6;
         var wnm = worldNumber - 1;
         remainingDistanceToPlanet = planetDistances[wnm];
@@ -3322,9 +3804,17 @@ function Boss(node, id) {
       var ip = this.id + 1;
       var bgi;
       if (ip != 6) {
-        bgi = `url('./assets/images/hq/zeta-${ip}-top.png')`;
+        if (!egg) {
+          bgi = `url('./assets/images/hq/zeta-${ip}-top.png')`;
+        } else {
+          bgi = `url('./assets/images/hq/zeta-boss-top-egg.png')`;
+        }
       } else {
-        bgi = `url('./assets/images/hq/zeta-${ip}-top-min.png')`;
+        if (!egg) {
+          bgi = `url('./assets/images/hq/zeta-${ip}-top-min.png')`;
+        } else {
+          bgi = `url('./assets/images/hq/zeta-final-boss-top-egg.png')`;
+        }
       }
       var sqx = Math.ceil($("#squadron").x() + $(".selectedShip.player").not(".shipBody").x());
       var myx = Math.ceil(this.node.x());
@@ -3332,17 +3822,33 @@ function Boss(node, id) {
         this.node.x(this.speed, true);
         bossPrevDir = "turnleft";
         if (ip != 6) {
-          bgi = `url('./assets/images/hq/zeta-${ip}-turnleft.png')`;
+          if (!egg) {
+            bgi = `url('./assets/images/hq/zeta-${ip}-turnleft.png')`;
+          } else {
+            bgi = `url('./assets/images/hq/zeta-boss-turnleft-egg.png')`;
+          }
         } else {
-          bgi = `url('./assets/images/hq/zeta-${ip}-turnleft-min.png')`;
+          if (!egg) {
+            bgi = `url('./assets/images/hq/zeta-${ip}-turnleft-min.png')`;
+          } else {
+            bgi = `url('./assets/images/hq/zeta-final-boss-turnleft-egg.png')`;
+          }
         }
       } else if (myx > sqx + this.speed) {
         this.node.x(-this.speed, true);
         bossPrevDir = "turnright";
         if (ip != 6) {
-          bgi = `url('./assets/images/hq/zeta-${ip}-turnright.png')`;
+          if (!egg) {
+            bgi = `url('./assets/images/hq/zeta-${ip}-turnright.png')`;
+          } else {
+            bgi = `url('./assets/images/hq/zeta-boss-turnright-egg.png')`;
+          }
         } else {
-          bgi = `url('./assets/images/hq/zeta-${ip}-turnright-min.png')`;
+          if (!egg) {
+            bgi = `url('./assets/images/hq/zeta-${ip}-turnright-min.png')`;
+          } else {
+            bgi = `url('./assets/images/hq/zeta-final-boss-turnright-egg.png')`;
+          }
         }
       } else {
         bossPrevDir = "top";
@@ -3370,7 +3876,7 @@ function Boss(node, id) {
           playSound(wn);
         }
         this.ammo--;
-        if (ip == 6) {
+        if (ip == 6 && !egg) {
           $("#bossBody").css("backgroundImage", `url('./assets/images/hq/zeta-6-${bossPrevDir}-max.png')`);
         }
         var name = "bossMissile_" + new Date().getTime();
@@ -3388,7 +3894,7 @@ function Boss(node, id) {
               bb.css("backgroundImage", `url('./assets/animations/hq/bossExplosion.gif`);
             } else {
               var ip = $("#boss_" + worldNumber)[0].boss.id + 1;
-              if (ip == 6) {
+              if (ip == 6 && !egg) {
                 bb.css("backgroundImage", `url('./assets/images/hq/zeta-6-${bossPrevDir}-min.png')`);
               }
             }
@@ -3424,6 +3930,15 @@ function Powerup(node, id, type) {
   this.node = node;
   this.id = id;
   this.type = type;
+  this.speed = powerUpSpeed;
+  this.update = function () {
+    this.node.y(this.speed, true);
+  };
+}
+
+function Egg(node, id) {
+  this.node = node;
+  this.id = id;
   this.speed = powerUpSpeed;
   this.update = function () {
     this.node.y(this.speed, true);

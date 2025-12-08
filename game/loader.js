@@ -1,6 +1,6 @@
 self.addEventListener("message", (event) => {
     if (event.data == "preload")
-        caches.open("SquadronV2.0.2").then((cache) => {
+        caches.open("SquadronV2.1.0").then((cache) => {
             return cache.addAll([
                 "./index.html",
                 "./game.css",
@@ -51,9 +51,11 @@ self.addEventListener("message", (event) => {
                 "./assets/images/hq/asteroid-42.png",
                 "./assets/images/hq/asteroid-43.png",
                 "./assets/images/hq/asteroid-44.png",
+                "./assets/images/hq/asteroid-egg.png",
                 "./assets/images/hq/asteroid-powerup-life.png",
                 "./assets/images/hq/asteroid-powerup-refillammo.png",
                 "./assets/images/hq/asteroid-powerup-shield.png",
+                "./assets/images/hq/egg.png",
                 "./assets/images/hq/pauseIcon.png",
                 "./assets/images/hq/powerups-refillammo.png",
                 "./assets/images/hq/powerups-squadlife.png",
@@ -104,9 +106,17 @@ self.addEventListener("message", (event) => {
                 "./assets/images/hq/zeta-6-turnleft-min.png",
                 "./assets/images/hq/zeta-6-turnright-max.png",
                 "./assets/images/hq/zeta-6-turnright-min.png",
+                "./assets/images/hq/zeta-egg.png",
+                "./assets/images/hq/zeta-boss-top-egg.png",
+                "./assets/images/hq/zeta-boss-turnleft-egg.png",
+                "./assets/images/hq/zeta-boss-turnright-egg.png",
+                "./assets/images/hq/zeta-final-boss-top-egg.png",
+                "./assets/images/hq/zeta-final-boss-turnleft-egg.png",
+                "./assets/images/hq/zeta-final-boss-turnright-egg.png",
                 "./assets/animations/hq/bossExplosion.gif",
                 "./assets/animations/hq/enemyGeneralExplosion.gif",
                 "./assets/animations/hq/menuloop.gif",
+                "./assets/animations/hq/menuloop-egg.gif",
                 "./assets/animations/hq/powerups-clear.gif",
                 "./assets/animations/hq/powerups-invincibility.gif",
                 "./assets/animations/hq/powerups-life.gif",
@@ -116,6 +126,7 @@ self.addEventListener("message", (event) => {
                 "./assets/animations/hq/rho-1-spin-x1.gif",
                 "./assets/animations/hq/shipExplosion.gif",
                 "./assets/animations/hq/title-logo-individualspin.gif",
+                "./assets/animations/hq/title-logo-individualspin-egg.gif",
                 "./assets/fonts/PressStart2P-Regular.ttf",
                 "./assets/fonts/Silkscreen-Regular.ttf",
                 "./assets/scripts/gamequery.min.js",
@@ -140,6 +151,7 @@ self.addEventListener("message", (event) => {
                 "./assets/sound/bg/3.mp3",
                 "./assets/sound/bg/4.mp3",
                 "./assets/sound/bg/bossFight1.mp3",
+                "./assets/sound/bg/egg.mp3",
                 "./assets/sound/bg/invincibility.mp3",
                 "./assets/logos/logoText.png",
                 "./assets/logos/logoText.ico"
