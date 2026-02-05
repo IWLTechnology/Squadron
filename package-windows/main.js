@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu } = require("electron");
+const { app, BrowserWindow, Tray, Menu, shell } = require("electron");
 
 if (require("electron-squirrel-startup")) app.quit();
 
@@ -19,6 +19,12 @@ const createWindow = () => {
       color: "#000000",
       symbolColor: "#ffffff"
     }
+  });
+  win.webContents.setWindowOpenHandler((details) => {
+    if (details.url.startsWith("https:") || details.url.startsWith("http:")) {
+      shell.openExternal(details.url);
+    }
+    return { action: "deny" };
   });
   win.maximize();
   win.setMenu(null);

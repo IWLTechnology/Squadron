@@ -1,1 +1,572 @@
-#loading,p{line-height:normal}#radar,.hide{display:none}#radar,.bg{background-repeat:no-repeat!important;background-size:cover!important}#alertBox,#bottomBarLeft,#confirmSettingsDiv,#radar,#rescuedShipTableLocation,.highscoreTd{border-width:calc(var(--vh-replace) * .2);border-style:solid}#alertBox,#bottomBarLeft,#bottomBarRight,#noscriptResult,#resizeMaterial,#topBar,.fhc,.fvc{position:absolute!important}#confirmSettingsDiv{border-color:transparent;border-radius:calc(var(--vh-replace) * 3.57);width:fit-content;margin:0 auto;padding:calc(var(--vh-replace) * 2) calc(var(--vh-replace) * 2) calc(var(--vh-replace) * 2) calc(var(--vh-replace) * 2);background-color:rgba(58,58,58,.9);font-size:calc(var(--vh-replace) * 3)}.w3-round{border-radius:calc(var(--vh-replace) * .7)!important}#bottomBarRight,#rescuedShipTableLocation,.highscoreTd{border-radius:calc(var(--vh-replace) * 3.57);border-color:transparent}.bigRed{font-size:calc(var(--vh-replace) * 3.65)}#radar{border-color:transparent;border-radius:calc(var(--vw-replace) * 7);width:calc(var(--vw-replace) * 12);height:calc(var(--vw-replace) * 12);padding:calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5);background-image:url('./assets/images/hq/radar.png');margin:0 auto}.greyedOut{background-color:#708090!important}#rescuedShipTableLocation,.highscoreTd{margin:0 auto;background-color:rgba(58,58,58,.9);width:fit-content}.highscoreTd{text-wrap-mode:nowrap;padding-right:calc(var(--vh-replace) * 2);padding:calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5)}.menuSelectPlay{margin-right:calc(calc(var(--vw-replace) * 50))!important}.highscoreOuter{margin:var(--vh-replace) var(--vh-replace) var(--vh-replace) var(--vh-replace)!important;height:fit-content;width:fit-content}#version{position:absolute;left:var(--vw-replace);bottom:var(--vw-replace)}button,button b{font-size:calc(var(--vh-replace) * 2.862254)!important}h1,h2{margin-top:calc(var(--vh-replace) * 1.7879492);margin-bottom:calc(var(--vh-replace) * 1.7879492)}body,h1,h2,h3,h4,p{font-family:Silkscreen}div{line-height:calc(var(--vh-replace) * 4)}#bottomBarLeft,#bottomBarRight{bottom:var(--vh-replace)!important}.bottomStatusBar,.bottomStatusBarInner{border-width:0!important;border-style:solid!important;border-radius:var(--vw-replace)!important}#bottomBarLeft,#bottomBarRight,#keepGoing,#topBar{z-index:2!important}.tl,table{text-align:left}#bossBody::after,.selectedShip.shipBody::after{mix-blend-mode:multiply;content:"";top:0;bottom:0;left:0;right:0;pointer-events:none}#playground,body{background-color:#000}@font-face{font-family:"Press Start 2P";src:url("./assets/fonts/PressStart2P-Regular.ttf") format("truetype")}@font-face{font-family:Silkscreen;src:url("./assets/fonts/Silkscreen-Regular.ttf") format("truetype")}:root{--vh-replace:1vh;--vw-replace:1vw;--invincibility-col:transparent;--boss-hit-col:transparent;--menu-bg:url("./assets/animations/hq/menuloop.gif")}.spanResize{font-size:calc(var(--vh-replace) * 3)}#alertText,#remainingDistanceToPlanet{font-size:calc(var(--vh-replace) * 2)}.spanResizeS{font-size:calc(var(--vh-replace) * 2.8)}#ammoBarInner,#ammoBarOuter{height:calc(var(--vh-replace) * 2)!important}.marginBp5{margin-bottom:calc(var(--vh-replace) * .5)!important}body{color:#fff;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;margin:0!important;padding:0!important}#rescuedShipImage,#selectedShipImage{height:calc(var(--vh-replace) * 20)!important}#rescuedShipName2{font-size:calc(var(--vh-replace) * 3.718934382)}#resizeMaterial{width:100vw;height:100vh;top:50%;left:50%;transform:translate(-50%,-50%);overflow:hidden!important}#rescuedShipTableLocation{padding-right:calc(var(--vh-replace) * 2);padding:calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5)}#bottomBarLeftTable,#bottomBarRightTable,#rescuedShipTable,.menuSelectTable{margin:var(--vh-replace) var(--vh-replace) var(--vh-replace) var(--vh-replace)!important}#pauseButton,#titleLogo{margin-right:calc(var(--vh-replace) * 2)}#rescuedShipTable td,.menuSelectTable td{height:fit-content;width:fit-content}#pauseButton,#topBarTable,#topBarTable td{height:calc(var(--vh-replace) * 5)!important}#titleLogo{height:calc(var(--vh-replace) * 9);margin-top:calc(var(--vh-replace) * 2);margin-bottom:calc(var(--vh-replace) * 2)}.menuSelectLocation{width:calc(var(--vh-replace) * 10)!important;height:calc(var(--vh-replace) * 10)!important;padding-right:calc(var(--vh-replace) * 2)}#bottomBarLeft,#bottomBarRight,.menuSelect{padding:calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5)}.menuSelect{width:calc(var(--vh-replace) * 56);margin-left:auto;margin-right:calc(calc(var(--vw-replace) * 50) - calc(var(--vh-replace) * 16))}button{width:calc(var(--vh-replace) * 55)!important;text-wrap:pretty!important;min-height:calc(var(--vh-replace) * 4.469873056)!important;padding-top:calc(var(--vh-replace) * .954)!important;padding-bottom:calc(var(--vh-replace) * .954)!important;padding-left:calc(var(--vw-replace) * .83333)!important;padding-right:calc(var(--vw-replace) * .83333)!important}.menuSelectImage{transform:rotate(90deg)!important;height:100%!important}h1{font-size:calc(var(--vw-replace) * 2.8125)}h2{font-size:calc(var(--vh-replace) * 2.86)!important}#topBar{width:calc(var(--vw-replace) * 100)!important}#topBar span{vertical-align:middle!important}#topBarTable,#topBarTable td{width:fit-content!important;padding:var(--vh-replace);padding-left:calc(var(--vh-replace) * 8)!important;font-family:Silkscreen;font-size:calc(var(--vh-replace) * 5)}#bottomBarLeftTable td,#bottomBarRightTable td{height:calc(var(--vh-replace) * 2)!important;width:fit-content!important}#bottomBarLeft{background-color:rgba(255,255,255,.2);left:var(--vh-replace)!important;border-color:transparent;border-radius:calc(var(--vh-replace) * 3.45)}#bottomBarRight{background-color:transparent;right:var(--vh-replace)!important;border-width:calc(var(--vh-replace) * .178)}.bottomStatusBar{height:var(--vw-replace);background-color:#e74c3c}#loading,#noscriptResult,.resized{background-color:#fff;line-height:normal}.fullHeight,table{height:100%}.bottomStatusBarInner{width:100%;height:100%}.bottomStatusBarLabel{width:30%}.bottomStatusBar{width:70%}.fullWidth,table{width:100%!important}#pauseButton{background-color:transparent!important;border-width:0;width:calc(var(--vh-replace) * 5)!important;padding:0!important}.font1{font-family:"Press Start 2P"!important}#loading{position:absolute;z-index:8!important;height:calc(var(--vh-replace) * 100)}#creditsMenu{height:calc(calc(var(--vh-replace) * 100))!important;font-size:calc(calc(var(--vh-replace) * 1.2))!important}.creditsData{column-count:2;line-height:calc(var(--vh-replace) * 2)}.font2{font-family:Silkscreen!important}#gameOver,#keepGoing,#newWorld,#paused,#setControls,#squadronDeath{background-color:#fff;position:absolute;z-index:6!important;height:calc(calc(var(--vh-replace) * 100))!important}.resized{position:absolute;z-index:6!important}.white{color:#fff!important}.purple{color:#9c27b0!important}.alfa-slab-one{font-family:Alfa Slab One}#gameOver,#setControls,#setGamepadControls{z-index:3!important}#squadronDeath{z-index:4!important}#newWorld{z-index:5!important}#paused{z-index:7!important}.bg{background-image:var(--menu-bg)!important}#bossBody,.bossMissiles,.egg,.enemy,.enemyMissiles,.playerMissiles,.powerup,.shipBody,.shipToCollect{background-repeat:no-repeat}#noscriptResult{z-index:9!important}.red{color:#e74c3c!important}.green{color:green!important}#downToSwitchMessage{font-size:calc(var(--vh-replace) * 1.430359378)!important}table{border-width:0;border-collapse:collapse!important}.tc{text-align:center}.fhc{left:50%!important;right:50%!important}.tr{text-align:right}.egg,.enemy,.player,.powerup,.shipToCollect{background-color:transparent;text-align:center}.fvc{top:50%!important;bottom:50%!important}.egg,.enemy{background-position:center center!important;background-size:contain!important}#background>div,#bossBody,.bossMissiles,.enemyMissiles,.player,.playerMissiles,.powerup,.shipBody,.shipToCollect{background-position:center!important;background-size:contain!important}#bossBody::after{background-color:var(--boss-hit-col);position:absolute}.player{opacity:1!important;background-repeat:no-repeat!important}.player:not(.unlockedShip){display:none!important}.player:not(.selectedShip):not(.selectingShip){opacity:.35!important}.selectedShip.shipBody::after{background-color:var(--invincibility-col);position:absolute}#ship1Body{background-image:url("./assets/images/hq/rho-1-top.png")}#ship2Body,#ship3Body{background-image:url("./assets/images/hq/rho-2-top.png")}#ship4Body{background-image:url("./assets/images/hq/rho-4-top.png")}#ship5Body{background-image:url("./assets/images/hq/rho-5-top.png")}#ship6Body{background-image:url("./assets/images/hq/rho-6-top.png")}#ship7Body{background-image:url("./assets/images/hq/rho-7-top.png")}#ship8Body{background-image:url("./assets/images/hq/rho-8-top.png")}#ship9Body{background-image:url("./assets/images/hq/rho-9-top.png")}#ship10Body{background-image:url("./assets/images/hq/rho-10-top.png")}#splashLogo{height:calc(var(--vh-replace) * 71.39)}#splashOtherh1{font-size:calc(var(--vh-replace) * 8.58)}.generalStatusBar,.generalStatusBarInner{border-radius:calc(var(--vh-replace) * 14.3)!important}.smallFont{font-size:calc(var(--vh-replace) * 2.29)}.healthBar{background-color:#4caf50}.shieldBar{background-color:#07f}#background>div,.bossMissiles,.enemyMissiles,.playerMissiles{text-align:center;background-color:transparent}.weaponNo1{background-image:url("./assets/images/hq/weapons-gun.png")!important}.weaponNo2{background-image:url("./assets/images/hq/weapons-torpedo.png")!important}.weaponNo3{background-image:url("./assets/images/hq/weapons-laser.png")!important}#background>div{background-repeat:repeat!important}#alertBox{top:calc(var(--vh-replace) * .5);left:calc(var(--vh-replace) * .5);border-color:transparent;border-radius:calc(var(--vh-replace) * 1);width:fit-content;padding-right:calc(var(--vh-replace) * 2);padding:calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5) calc(var(--vh-replace) * .5);background-color:rgba(58,58,58,.6);opacity:0;transition:opacity .3s linear;z-index:100!important}#alertTitle{font-size:calc(var(--vh-replace) * 2.7)}#closeAlert{font-size:calc(var(--vh-replace) * 1.5)!important}.clearSS{background-color:#ff6868!important;color:#000!important}
+#loading,
+p {
+    line-height: normal;
+}
+#radar,
+.hide {
+    display: none;
+}
+#radar,
+.bg {
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+#alertBox,
+#bottomBarLeft,
+#confirmSettingsDiv,
+#radar,
+#rescuedShipTableLocation,
+.highscoreTd {
+    border-width: calc(var(--vh-replace) * 0.2);
+    border-style: solid;
+}
+#alertBox,
+#bottomBarLeft,
+#bottomBarRight,
+#noscriptResult,
+#resizeMaterial,
+#topBar,
+.fhc,
+.fvc {
+    position: absolute !important;
+}
+#confirmSettingsDiv {
+    border-color: transparent;
+    border-radius: calc(var(--vh-replace) * 3.57);
+    width: fit-content;
+    margin: 0 auto;
+    padding: calc(var(--vh-replace) * 2) calc(var(--vh-replace) * 2) calc(var(--vh-replace) * 2)
+        calc(var(--vh-replace) * 2);
+    background-color: rgba(58, 58, 58, 0.9);
+    font-size: calc(var(--vh-replace) * 3);
+}
+.w3-round {
+    border-radius: calc(var(--vh-replace) * 0.7) !important;
+}
+#bottomBarRight,
+#rescuedShipTableLocation,
+.highscoreTd {
+    border-radius: calc(var(--vh-replace) * 3.57);
+    border-color: transparent;
+}
+.bigRed {
+    font-size: calc(var(--vh-replace) * 3.65);
+}
+#radar {
+    border-color: transparent;
+    border-radius: calc(var(--vw-replace) * 7);
+    width: calc(var(--vw-replace) * 12);
+    height: calc(var(--vw-replace) * 12);
+    padding: calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5)
+        calc(var(--vh-replace) * 0.5);
+    background-image: url("./assets/images/hq/radar.png");
+    margin: 0 auto;
+}
+.greyedOut {
+    background-color: #708090 !important;
+}
+#rescuedShipTableLocation,
+.highscoreTd {
+    margin: 0 auto;
+    background-color: rgba(58, 58, 58, 0.9);
+    width: fit-content;
+}
+.highscoreTd {
+    text-wrap-mode: nowrap;
+    padding-right: calc(var(--vh-replace) * 2);
+    padding: calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5)
+        calc(var(--vh-replace) * 0.5);
+}
+.menuSelectPlay {
+    margin-right: calc(calc(var(--vw-replace) * 50)) !important;
+}
+.highscoreOuter {
+    margin: var(--vh-replace) var(--vh-replace) var(--vh-replace) var(--vh-replace) !important;
+    height: fit-content;
+    width: fit-content;
+}
+#version {
+    position: absolute;
+    left: var(--vw-replace);
+    bottom: var(--vw-replace);
+}
+button,
+button b {
+    font-size: calc(var(--vh-replace) * 2.862254) !important;
+}
+h1,
+h2 {
+    margin-top: calc(var(--vh-replace) * 1.7879492);
+    margin-bottom: calc(var(--vh-replace) * 1.7879492);
+}
+body,
+h1,
+h2,
+h3,
+h4,
+p {
+    font-family: Silkscreen;
+}
+div {
+    line-height: calc(var(--vh-replace) * 4);
+}
+#bottomBarLeft,
+#bottomBarRight {
+    bottom: var(--vh-replace) !important;
+}
+.bottomStatusBar,
+.bottomStatusBarInner {
+    border-width: 0 !important;
+    border-style: solid !important;
+    border-radius: var(--vw-replace) !important;
+}
+#bottomBarLeft,
+#bottomBarRight,
+#keepGoing,
+#topBar {
+    z-index: 2 !important;
+}
+.tl,
+table {
+    text-align: left;
+}
+#bossBody::after,
+.selectedShip.shipBody::after {
+    mix-blend-mode: multiply;
+    content: "";
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+}
+#playground,
+body {
+    background-color: #000;
+}
+@font-face {
+    font-family: "Press Start 2P";
+    src: url("./assets/fonts/PressStart2P-Regular.ttf") format("truetype");
+}
+@font-face {
+    font-family: Silkscreen;
+    src: url("./assets/fonts/Silkscreen-Regular.ttf") format("truetype");
+}
+:root {
+    --vh-replace: 1vh;
+    --vw-replace: 1vw;
+    --invincibility-col: transparent;
+    --boss-hit-col: transparent;
+    --menu-bg: url("./assets/animations/hq/menuloop.gif");
+}
+.spanResize {
+    font-size: calc(var(--vh-replace) * 3);
+}
+#alertText,
+#remainingDistanceToPlanet {
+    font-size: calc(var(--vh-replace) * 2);
+}
+.spanResizeS {
+    font-size: calc(var(--vh-replace) * 2.8);
+}
+#ammoBarInner,
+#ammoBarOuter {
+    height: calc(var(--vh-replace) * 2) !important;
+}
+.marginBp5 {
+    margin-bottom: calc(var(--vh-replace) * 0.5) !important;
+}
+body {
+    color: #fff;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+#rescuedShipImage,
+#selectedShipImage {
+    height: calc(var(--vh-replace) * 20) !important;
+}
+#rescuedShipName2 {
+    font-size: calc(var(--vh-replace) * 3.718934382);
+}
+#resizeMaterial {
+    width: 100vw;
+    height: 100vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden !important;
+}
+#rescuedShipTableLocation {
+    padding-right: calc(var(--vh-replace) * 2);
+    padding: calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5)
+        calc(var(--vh-replace) * 0.5);
+}
+#bottomBarLeftTable,
+#bottomBarRightTable,
+#rescuedShipTable,
+.menuSelectTable {
+    margin: var(--vh-replace) var(--vh-replace) var(--vh-replace) var(--vh-replace) !important;
+}
+#pauseButton,
+#titleLogo {
+    margin-right: calc(var(--vh-replace) * 2);
+}
+#rescuedShipTable td,
+.menuSelectTable td {
+    height: fit-content;
+    width: fit-content;
+}
+#pauseButton,
+#topBarTable,
+#topBarTable td {
+    height: calc(var(--vh-replace) * 5) !important;
+}
+#titleLogo {
+    height: calc(var(--vh-replace) * 9);
+    margin-top: calc(var(--vh-replace) * 2);
+    margin-bottom: calc(var(--vh-replace) * 2);
+}
+.menuSelectLocation {
+    width: calc(var(--vh-replace) * 10) !important;
+    height: calc(var(--vh-replace) * 10) !important;
+    padding-right: calc(var(--vh-replace) * 2);
+}
+#bottomBarLeft,
+#bottomBarRight,
+.menuSelect {
+    padding: calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5)
+        calc(var(--vh-replace) * 0.5);
+}
+.menuSelect {
+    width: calc(var(--vh-replace) * 56);
+    margin-left: auto;
+    margin-right: calc(calc(var(--vw-replace) * 50) - calc(var(--vh-replace) * 16));
+}
+button {
+    width: calc(var(--vh-replace) * 55) !important;
+    text-wrap: pretty !important;
+    min-height: calc(var(--vh-replace) * 4.469873056) !important;
+    padding-top: calc(var(--vh-replace) * 0.954) !important;
+    padding-bottom: calc(var(--vh-replace) * 0.954) !important;
+    padding-left: calc(var(--vw-replace) * 0.83333) !important;
+    padding-right: calc(var(--vw-replace) * 0.83333) !important;
+}
+.menuSelectImage {
+    transform: rotate(90deg) !important;
+    height: 100% !important;
+}
+h1 {
+    font-size: calc(var(--vw-replace) * 2.8125);
+}
+h2 {
+    font-size: calc(var(--vh-replace) * 2.86) !important;
+}
+#topBar {
+    width: calc(var(--vw-replace) * 100) !important;
+}
+#topBar span {
+    vertical-align: middle !important;
+}
+#topBarTable,
+#topBarTable td {
+    width: fit-content !important;
+    padding: var(--vh-replace);
+    padding-left: calc(var(--vh-replace) * 8) !important;
+    font-family: Silkscreen;
+    font-size: calc(var(--vh-replace) * 5);
+}
+#bottomBarLeftTable td,
+#bottomBarRightTable td {
+    height: calc(var(--vh-replace) * 2) !important;
+    width: fit-content !important;
+}
+#bottomBarLeft {
+    background-color: rgba(255, 255, 255, 0.2);
+    left: var(--vh-replace) !important;
+    border-color: transparent;
+    border-radius: calc(var(--vh-replace) * 3.45);
+}
+#bottomBarRight {
+    background-color: transparent;
+    right: var(--vh-replace) !important;
+    border-width: calc(var(--vh-replace) * 0.178);
+}
+.bottomStatusBar {
+    height: var(--vw-replace);
+    background-color: #e74c3c;
+}
+#loading,
+#noscriptResult,
+.resized {
+    background-color: #fff;
+    line-height: normal;
+}
+.fullHeight,
+table {
+    height: 100%;
+}
+.bottomStatusBarInner {
+    width: 100%;
+    height: 100%;
+}
+.bottomStatusBarLabel {
+    width: 30%;
+}
+.bottomStatusBar {
+    width: 70%;
+}
+.fullWidth,
+table {
+    width: 100% !important;
+}
+#pauseButton {
+    background-color: transparent !important;
+    border-width: 0;
+    width: calc(var(--vh-replace) * 5) !important;
+    padding: 0 !important;
+}
+.font1 {
+    font-family: "Press Start 2P" !important;
+}
+#loading {
+    position: absolute;
+    z-index: 8 !important;
+    height: calc(var(--vh-replace) * 100);
+}
+#credits {
+    height: calc(calc(var(--vh-replace) * 100)) !important;
+    z-index: -1 !important;
+    position: fixed;
+}
+.font2 {
+    font-family: Silkscreen !important;
+}
+#gameOver,
+#keepGoing,
+#newWorld,
+#paused,
+#setControls,
+#squadronDeath {
+    background-color: #fff;
+    position: absolute;
+    z-index: 6 !important;
+    height: calc(calc(var(--vh-replace) * 100)) !important;
+}
+.resized {
+    position: absolute;
+    z-index: 6 !important;
+}
+.white {
+    color: #fff !important;
+}
+.purple {
+    color: #9c27b0 !important;
+}
+.alfa-slab-one {
+    font-family: Alfa Slab One;
+}
+#gameOver,
+#setControls,
+#setGamepadControls {
+    z-index: 3 !important;
+}
+#squadronDeath {
+    z-index: 4 !important;
+}
+#newWorld {
+    z-index: 5 !important;
+}
+#paused {
+    z-index: 7 !important;
+}
+.bg {
+    background-image: var(--menu-bg) !important;
+}
+#bossBody,
+.bossMissiles,
+.egg,
+.enemy,
+.enemyMissiles,
+.playerMissiles,
+.powerup,
+.shipBody,
+.shipToCollect {
+    background-repeat: no-repeat;
+}
+#noscriptResult {
+    z-index: 9 !important;
+}
+.red {
+    color: #e74c3c !important;
+}
+.green {
+    color: green !important;
+}
+#downToSwitchMessage {
+    font-size: calc(var(--vh-replace) * 1.430359378) !important;
+}
+table {
+    border-width: 0;
+    border-collapse: collapse !important;
+}
+.tc {
+    text-align: center;
+}
+.fhc {
+    left: 50% !important;
+    right: 50% !important;
+}
+.tr {
+    text-align: right;
+}
+.egg,
+.enemy,
+.player,
+.powerup,
+.shipToCollect {
+    background-color: transparent;
+    text-align: center;
+}
+.fvc {
+    top: 50% !important;
+    bottom: 50% !important;
+}
+.egg,
+.enemy {
+    background-position: center center !important;
+    background-size: contain !important;
+}
+#background > div,
+#bossBody,
+.bossMissiles,
+.enemyMissiles,
+.player,
+.playerMissiles,
+.powerup,
+.shipBody,
+.shipToCollect {
+    background-position: center !important;
+    background-size: contain !important;
+}
+#bossBody::after {
+    background-color: var(--boss-hit-col);
+    position: absolute;
+}
+.player {
+    opacity: 1 !important;
+    background-repeat: no-repeat !important;
+}
+.player:not(.unlockedShip) {
+    display: none !important;
+}
+.player:not(.selectedShip):not(.selectingShip) {
+    opacity: 0.35 !important;
+}
+.selectedShip.shipBody::after {
+    background-color: var(--invincibility-col);
+    position: absolute;
+}
+#ship1Body {
+    background-image: url("./assets/images/hq/rho-1-top.png");
+}
+#ship2Body,
+#ship3Body {
+    background-image: url("./assets/images/hq/rho-2-top.png");
+}
+#ship4Body {
+    background-image: url("./assets/images/hq/rho-4-top.png");
+}
+#ship5Body {
+    background-image: url("./assets/images/hq/rho-5-top.png");
+}
+#ship6Body {
+    background-image: url("./assets/images/hq/rho-6-top.png");
+}
+#ship7Body {
+    background-image: url("./assets/images/hq/rho-7-top.png");
+}
+#ship8Body {
+    background-image: url("./assets/images/hq/rho-8-top.png");
+}
+#ship9Body {
+    background-image: url("./assets/images/hq/rho-9-top.png");
+}
+#ship10Body {
+    background-image: url("./assets/images/hq/rho-10-top.png");
+}
+#splashLogo {
+    height: calc(var(--vh-replace) * 71.39);
+}
+#splashOtherh1 {
+    font-size: calc(var(--vh-replace) * 8.58);
+}
+.generalStatusBar,
+.generalStatusBarInner {
+    border-radius: calc(var(--vh-replace) * 14.3) !important;
+}
+.smallFont {
+    font-size: calc(var(--vh-replace) * 2.29);
+}
+.healthBar {
+    background-color: #4caf50;
+}
+.shieldBar {
+    background-color: #07f;
+}
+#background > div,
+.bossMissiles,
+.enemyMissiles,
+.playerMissiles {
+    text-align: center;
+    background-color: transparent;
+}
+.weaponNo1 {
+    background-image: url("./assets/images/hq/weapons-gun.png") !important;
+}
+.weaponNo2 {
+    background-image: url("./assets/images/hq/weapons-torpedo.png") !important;
+}
+.weaponNo3 {
+    background-image: url("./assets/images/hq/weapons-laser.png") !important;
+}
+#background > div {
+    background-repeat: repeat !important;
+}
+#alertBox {
+    top: calc(var(--vh-replace) * 0.5);
+    left: calc(var(--vh-replace) * 0.5);
+    border-color: transparent;
+    border-radius: calc(var(--vh-replace) * 1);
+    width: fit-content;
+    padding-right: calc(var(--vh-replace) * 2);
+    padding: calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5) calc(var(--vh-replace) * 0.5)
+        calc(var(--vh-replace) * 0.5);
+    background-color: rgba(58, 58, 58, 0.6);
+    opacity: 0;
+    transition: opacity 0.3s linear;
+    z-index: 100 !important;
+}
+#alertTitle {
+    font-size: calc(var(--vh-replace) * 2.7);
+}
+#closeAlert {
+    font-size: calc(var(--vh-replace) * 1.5) !important;
+}
+.clearSS {
+    background-color: #ff6868 !important;
+    color: #000 !important;
+}
+
+#installButton, #updateButton {
+    position: absolute;
+    top: var(--vw-replace);
+    right: var(--vw-replace);
+}
+video {
+    height: calc(var(--vh-replace) * 100);
+    border-color: black;
+}

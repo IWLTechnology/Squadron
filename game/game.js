@@ -1,3 +1,4 @@
+var eggCredits = false;
 var gamepadMapping = "default";
 var eggUsedAtStart = false;
 var settingsData = JSON.parse(localStorage.getItem("settings"));
@@ -78,14 +79,8 @@ if (gamePadControls == null || gamePadControls == undefined) {
   gamePadControls = JSON.parse(gamePadControls);
 }
 var sound = [settingsData.sound0, settingsData.sound1];
-switch (sound[0]) {
-  case "false":
-    sound[0] = false;
-    break;
-  default:
-    sound[0] = true;
-    break;
-}
+if (sound[0] == null) sound[0] = 0.7;
+sound[0] = Number(sound[0]);
 switch (sound[1]) {
   case "false":
     sound[1] = false;
@@ -94,15 +89,16 @@ switch (sound[1]) {
     sound[1] = true;
     break;
 }
-if (sound[0] && sound[1]) {
-  document.getElementById("sound").innerHTML = "SOUND - ON";
-} else if (sound[0] && !sound[1]) {
-  document.getElementById("sound").innerHTML = "SOUND - MUSIC ONLY";
-} else if (!sound[0] && sound[1]) {
-  document.getElementById("sound").innerHTML = "SOUND - SFX ONLY";
+if (sound[1]) {
+  document.getElementById("sfx").innerHTML = "SFX - ON";
+  document.getElementById("sfx2").innerHTML = "SFX - ON";
 } else {
-  document.getElementById("sound").innerHTML = "SOUND - OFF";
+  document.getElementById("sfx").innerHTML = "SFX - OFF";
+  document.getElementById("sfx2").innerHTML = "SFX - OFF";
 }
+document.getElementById("music").innerHTML = "MUSIC - " + sound[0] * 100 + "%";
+document.getElementById("music2").innerHTML = "MUSIC - " + sound[0] * 100 + "%";
+
 var DEV = false;
 var LOGGING = false;
 var CONTNMW = false;
@@ -205,6 +201,8 @@ for (i = 0; i < 200; i++) {
 var timeouts = {
   bgmusic: null,
   bgmusicStop: null,
+  titlemusic: null,
+  titlemusicStop: null,
   switchShip: null,
   newWorld: null,
   shieldRecharge: 0,
@@ -223,7 +221,9 @@ var timeouts = {
   invincibilityMusicSlow: 0,
   bossbgmusicStop: null,
   alert: null,
-  autosave: 0
+  autosave: 0,
+  creditsShow: null,
+  creditsCurrentOpacity: 1
 };
 var stopScroll = false;
 var bomb = false;
@@ -245,8 +245,8 @@ var gamePadJustPressed = {
   menuenter: false
 };
 var stopWorldCounter = false;
-var menuSelected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var menuSelectMax = [4, 6, 2, 1, 2, 1, 1, 1, 4, 4, 13, 2, 1, 1, 8, 8, 2, 3, 4, 5, 5, 3];
+var menuSelected = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var menuSelectMax = [3, 7, 4, 1, 2, 1, 1, 1, 4, 4, 13, 2, 1, 1, 8, 8, 2, 3, 4, 5, 5, 3, 2];
 var currentMenu = 0;
 var switchShipCooldown = false;
 var switchShipCooldownTime = 10;
@@ -901,46 +901,79 @@ function playBgMusic() {
   var rand;
   invincibilityMusicSlow = false;
   window.clearTimeout(timeouts.bgmusicStop);
-  for (i = 0; i < 4; i++) {
+  for (i = 0; i < 5; i++) {
     document.getElementById("bg" + i).pause();
     document.getElementById("bg" + i).currentTime = 0.0;
   }
   document.getElementById("bgBoss1").pause();
+  document.getElementById("bgBossFinal").pause();
   document.getElementById("egg").pause();
   if (egg) {
     rand = "egg";
   } else {
     rand = "bg" + Math.floor(Math.random() * 4);
   }
-  if (sound[0]) {
-    if (isBossFight && !egg) {
+  if (isBossFight && !egg) {
+    if (worldNumber == 6) {
+      rand = "bgBossFinal";
+    } else {
       rand = "bgBoss1";
     }
-    document.getElementById(rand).volume = 0.7;
-    document.getElementById(rand).currentTime = 0.0;
-    document.getElementById(rand).play();
-    timeouts.bgmusic = setTimeout(
+  }
+  document.getElementById(rand).volume = sound[0];
+  document.getElementById(rand).currentTime = 0.0;
+  document.getElementById(rand).play();
+  timeouts.bgmusic = setTimeout(
+    function () {
+      playBgMusic();
+    },
+    document.getElementById(rand).duration * 1000
+  );
+}
+
+function titleMusic(opt) {
+  if (opt == "play") {
+    var rand;
+    window.clearTimeout(timeouts.titlemusicStop);
+    document.getElementById("titleMusic").pause();
+    document.getElementById("titleMusic").currentTime = 0.0;
+    document.getElementById("titleMusic").volume = sound[0];
+    document.getElementById("titleMusic").play();
+    timeouts.titlemusic = setTimeout(
       function () {
-        playBgMusic();
+        titleMusic("play");
       },
-      document.getElementById(rand).duration * 1000
+      document.getElementById("titleMusic").duration * 1000
     );
+  } else {
+    musStopCount = 0.7;
+    window.clearTimeout(timeouts.titlemusic);
+    var i;
+    timeouts.titlemusicStop = window.setInterval(function () {
+      var i;
+      if (musStopCount > 0) {
+        musStopCount -= 0.025;
+        document.getElementById("titleMusic").volume = musStopCount;
+      } else {
+        document.getElementById("titleMusic").pause();
+        document.getElementById("titleMusic").currentTime = 0.0;
+        window.clearInterval(timeouts.titlemusicStop);
+      }
+    }, 100);
   }
 }
 
 function invincibilityMusic() {
-  if (sound[0]) {
-    var rand = "bgInvincibility";
-    document.getElementById(rand).volume = 0.9;
-    document.getElementById(rand).currentTime = 0.0;
-    document.getElementById(rand).play();
-    timeouts.bgmusic = setTimeout(
-      function () {
-        invincibilityMusic();
-      },
-      document.getElementById(rand).duration * 1000
-    );
-  }
+  var rand = "bgInvincibility";
+  document.getElementById(rand).volume = sound[0];
+  document.getElementById(rand).currentTime = 0.0;
+  document.getElementById(rand).play();
+  timeouts.bgmusic = setTimeout(
+    function () {
+      invincibilityMusic();
+    },
+    document.getElementById(rand).duration * 1000
+  );
 }
 function stopBgMusic() {
   musStopCount = 0.7;
@@ -952,9 +985,12 @@ function stopBgMusic() {
       if (musStopCount > 0) {
         musStopCount -= 0.025;
         document.getElementById("bgBoss1").volume = musStopCount;
+        document.getElementById("bgBossFinal").volume = musStopCount;
       } else {
         document.getElementById("bgBoss1").pause();
         document.getElementById("bgBoss1").currentTime = 0.0;
+        document.getElementById("bgBossFinal").pause();
+        document.getElementById("bgBossFinal").currentTime = 0.0;
         invincibilityMusicSlow = false;
         window.clearInterval(timeouts.bgmusicStop);
       }
@@ -964,14 +1000,14 @@ function stopBgMusic() {
       var i;
       if (musStopCount > 0) {
         musStopCount -= 0.025;
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < 5; i++) {
           document.getElementById("bg" + i).volume = musStopCount;
         }
         if (!egg) {
           document.getElementById("egg").volume = musStopCount;
         }
       } else {
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < 5; i++) {
           document.getElementById("bg" + i).pause();
           document.getElementById("bg" + i).currentTime = 0.0;
         }
@@ -997,10 +1033,6 @@ function mainMenu(option) {
     case 1:
       document.getElementById("settingsMenu").style.display = "block";
       currentMenu = 2;
-      break;
-    case 2:
-      document.getElementById("creditsMenu").style.display = "block";
-      currentMenu = 4;
       break;
   }
 }
@@ -1072,30 +1104,37 @@ function setGamepadControls(n) {
 function settingsMenu(option) {
   switch (option) {
     case 0:
-      var te;
-      if (sound[0] && sound[1]) {
-        sound[0] = true;
-        sound[1] = false;
-        te = "SOUND - MUSIC ONLY";
-      } else if (sound[0] && !sound[1]) {
-        sound[0] = false;
-        sound[1] = true;
-        te = "SOUND - SFX ONLY";
-      } else if (!sound[0] && sound[1]) {
-        sound[0] = false;
-        sound[1] = false;
-        te = "SOUND - OFF";
+      sound[0] = sound[0] * 100;
+      if (sound[0] >= 100) {
+        sound[0] = 0;
       } else {
-        sound[0] = true;
-        sound[1] = true;
-        te = "SOUND - ON";
+        sound[0] += 10;
       }
-      document.getElementById("sound").innerHTML = te;
+      sound[0] = sound[0] / 100;
+      document.getElementById("music").innerHTML = "MUSIC - " + sound[0] * 100 + "%";
+      document.getElementById("music2").innerHTML = "MUSIC - " + sound[0] * 100 + "%";
       settingsData.sound0 = sound[0].toString();
+      localStorage.setItem("settings", JSON.stringify(settingsData));
+      var x = document.getElementsByTagName("audio");
+      for (var i = 0; i < x.length; i++) {
+        x[i].volume = sound[0];
+      }
+      break;
+    case 1:
+      var te;
+      if (sound[1]) {
+        sound[1] = false;
+        te = "SFX - OFF";
+      } else {
+        sound[1] = true;
+        te = "SFX - ON";
+      }
+      document.getElementById("sfx").innerHTML = te;
+      document.getElementById("sfx2").innerHTML = te;
       settingsData.sound1 = sound[1].toString();
       localStorage.setItem("settings", JSON.stringify(settingsData));
       break;
-    case 1:
+    case 2:
       var bt = document.getElementById("difficulty");
       switch (initialSquadronLives) {
         case 1:
@@ -1116,10 +1155,10 @@ function settingsMenu(option) {
       squadronLives = initialSquadronLives;
       updateSquadronLives();
       break;
-    case 2:
+    case 3:
       controlsSettingsMenu(0);
       break;
-    case 3:
+    case 4:
       currentMenu = 17;
       document.getElementById("settingsMenu").style.display = "none";
       document.getElementById("clearStorageConfirm").style.display = "block";
@@ -1128,7 +1167,7 @@ function settingsMenu(option) {
           " THIS WILL ALSO REMOVE THE EFFECTS OF THE EASTER EGG.";
       }
       break;
-    case 4:
+    case 5:
       document.getElementById("settingsMenu").style.display = "none";
       document.getElementById("mainMenu").style.display = "block";
       currentMenu = 1;
@@ -1195,9 +1234,40 @@ function clearSettings(n) {
 function inGameSettingsMenu(option) {
   switch (option) {
     case 0:
-      autosaveChange();
+      sound[0] = sound[0] * 100;
+      if (sound[0] >= 100) {
+        sound[0] = 0;
+      } else {
+        sound[0] += 10;
+      }
+      sound[0] = sound[0] / 100;
+      document.getElementById("music").innerHTML = "MUSIC - " + sound[0] * 100 + "%";
+      document.getElementById("music2").innerHTML = "MUSIC - " + sound[0] * 100 + "%";
+      settingsData.sound0 = sound[0].toString();
+      localStorage.setItem("settings", JSON.stringify(settingsData));
+      var x = document.getElementsByTagName("audio");
+      for (var i = 0; i < x.length; i++) {
+        x[i].volume = sound[0];
+      }
       break;
     case 1:
+      var te;
+      if (sound[1]) {
+        sound[1] = false;
+        te = "SFX - OFF";
+      } else {
+        sound[1] = true;
+        te = "SFX - ON";
+      }
+      document.getElementById("sfx").innerHTML = te;
+      document.getElementById("sfx2").innerHTML = te;
+      settingsData.sound1 = sound[1].toString();
+      localStorage.setItem("settings", JSON.stringify(settingsData));
+      break;
+    case 2:
+      autosaveChange();
+      break;
+    case 3:
       document.getElementById("inGameSettingsMenu").style.display = "none";
       if (!DEV) {
         document.getElementById("pauseMenu").style.display = "block";
@@ -1327,14 +1397,36 @@ function devSettings(option) {
   }
 }
 
-function credits(option) {
-  switch (option) {
-    case 0:
-      document.getElementById("creditsMenu").style.display = "none";
-      document.getElementById("mainMenu").style.display = "block";
-      currentMenu = 1;
-      break;
+function showCredits() {
+  if (eggCredits) {
+    document.getElementById("credits").innerHTML =
+      `<video id="creditsVideo" preload="auto"><source src="./assets/videos/hq/credits-egg.mp4" type="video/mp4" /></video>`;
+  } else {
+    document.getElementById("credits").innerHTML =
+      `<video id="creditsVideo" preload="auto"><source src="./assets/videos/hq/credits.mp4" type="video/mp4" /></video>`;
   }
+  document.getElementById("credits").style.opacity = "0";
+  document.getElementById("credits").style.display = "block";
+  timeouts.creditsShow = setInterval(function () {
+    if (timeouts.creditsCurrentOpacity <= 0) {
+      window.clearTimeout(timeouts.creditsShow);
+      $.playground().pauseGame();
+      document.getElementById("upScroller").style.display = "none";
+      document.getElementById("credits").style.opacity = "1";
+      document.getElementById("creditsVideo").addEventListener("ended", function () {
+        document.getElementById("gameWon").style.display = "block";
+        document.getElementById("credits").style.display = "none";
+        if (sound[1]) {
+          playSound("win1");
+        }
+      });
+      document.getElementById("creditsVideo").play();
+    } else {
+      timeouts.creditsCurrentOpacity -= 0.001;
+      document.getElementById("upScroller").style.opacity = timeouts.creditsCurrentOpacity;
+      document.getElementById("credits").style.opacity = 1 - timeouts.creditsCurrentOpacity;
+    }
+  }, 7);
 }
 
 function init() {
@@ -1370,7 +1462,8 @@ function preloadComplete() {
         [
           { id: "shipHit", src: "/shipHit.wav" },
           { id: "lose", src: "/gameOver.mp3" },
-          { id: "win0", src: "/gameWin.wav" },
+          { id: "win0", src: "/gameWin.mp3" },
+          { id: "win1", src: "/gameWin2.wav" },
           { id: "gun", src: "/gun.mp3" },
           { id: "laser", src: "/laser.wav" },
           { id: "powerupCollect", src: "/powerupCollect.wav" },
@@ -2156,9 +2249,7 @@ function soundLoad(ev) {
           } else {
             document.getElementById("bgInvincibility").pause();
             document.getElementById("bgInvincibility").currentTime = 0.0;
-            if (sound[0]) {
-              playBgMusic();
-            }
+            playBgMusic();
             window.clearInterval(timeouts.bgmusicStop);
             invincibilityMusicSlow = false;
           }
@@ -2511,8 +2602,41 @@ function soundLoad(ev) {
   }
 }
 
+function updateMenu(opt) {
+  switch (opt) {
+    case 0:
+      window.open("https://github.com/IWLTechnology/Squadron/releases");
+      break;
+    case 1:
+      document.getElementById("mainMenu").style.display = "block";
+      document.getElementById("updateMenu").style.display = "none";
+      currentMenu = 1;
+      break;
+    case "open":
+      currentMenu = 23;
+      document.getElementById("updateMenu").style.display = "block";
+      document.getElementById("updateButton").style.display = "block";
+      document.getElementById("mainMenu").style.display = "none";
+      break;
+  }
+}
+
 function unlockGame() {
   changeTitle("Main Menu");
+  if (window.location.href.search("iwltechnology.github.io") == -1) {
+    document.getElementById("installButton").style.display = "none";
+    fetch("https://raw.githubusercontent.com/IWLTechnology/Squadron/refs/heads/main/package-linux/package.json")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.version != document.getElementById("preciseVersion").innerHTML) {
+          document.getElementById("updateVersion").innerHTML = data.version;
+          updateMenu("open");
+        }
+      })
+      .catch((error) =>
+        openAlert("FAILED TO CHECK FOR UPDATES.", "An error occurred when fetching updates: " + error, "red")
+      );
+  }
   var im;
   for (var i = 1; i < 5; i++) {
     im = i - 1;
@@ -2534,6 +2658,7 @@ function unlockGame() {
   document.getElementById("loading").style.display = "none";
   document.getElementById("mainMenu").style.display = "block";
   currentMenu = 1;
+  titleMusic("play");
   if (settingsData.nowelcome != "true") {
     openAlert(
       "Welcome to Squadron!",
@@ -2587,9 +2712,7 @@ function eggCollect() {
   if (sound[1]) {
     playSound("powerupCollect");
   }
-  if (sound[0]) {
-    playBgMusic();
-  }
+  playBgMusic();
 }
 
 function eggGraphics() {
@@ -2643,9 +2766,7 @@ function powerupCollect(n) {
           timeouts.invincibilityWarn = 0;
           timeouts.invincibilityMusicSlow = 0;
           stopBgMusic();
-          if (sound[0]) {
-            invincibilityMusic();
-          }
+          invincibilityMusic();
         } else {
           stopBgMusic();
           invincibility = true;
@@ -2690,6 +2811,7 @@ function powerupCollect(n) {
 }
 
 function startGame() {
+  titleMusic("stop");
   gameInterrups.manualPause = false;
   updateSquadronLives();
   document.getElementById("confirmPlayMenu").style.display = "none";
@@ -2853,9 +2975,9 @@ function updateWeaponAmmunition() {
 window.addEventListener("gamepadconnected", function (e) {
   var i = navigator.getGamepads()[0].id;
   var tpe = "default";
-  if(i.search("Xbox 360") != -1){
-   tpe =  "Xbox 360";
-  }else if(i.search("Vendor: 081f Product: e401") != -1){
+  if (i.search("Xbox 360") != -1) {
+    tpe = "Xbox 360";
+  } else if (i.search("Vendor: 081f Product: e401") != -1) {
     tpe = "081f:e401";
   }
   gamePadConnect(i.split("(")[0], tpe);
@@ -3048,15 +3170,6 @@ function confirmPlayMenu(n) {
           t = "NORMAL";
           break;
       }
-      if (sound[0] && sound[1]) {
-        document.getElementById("confirmSound").innerHTML = "SOUND IS ON";
-      } else if (sound[0] && !sound[1]) {
-        document.getElementById("confirmSound").innerHTML = "ONLY MUSIC IS ON";
-      } else if (!sound[0] && sound[1]) {
-        document.getElementById("confirmSound").innerHTML = "ONLY SFX ARE ON";
-      } else {
-        document.getElementById("confirmSound").innerHTML = "SOUND IS OFF";
-      }
       document.getElementById("confirmMode").innerHTML = "1 PLAYER";
       document.getElementById("confirmDifficulty").innerHTML = t;
       document.getElementById("confirmSlot").innerHTML = currentGameSlot;
@@ -3233,15 +3346,17 @@ function newWorldBossDone() {
   pauseGameStuff = true;
   timeouts.newWorld = setInterval(function () {
     if ($("#squadron").y() < 0) {
+      document.getElementById("squadron").style.display = "none";
       window.clearInterval(timeouts.newWorld);
-      if (sound[1]) {
+      worldNumber++;
+      if (sound[1] && worldNumber != 7) {
         playSound("newWorld");
       }
-      $.playground().pauseGame();
-      worldNumber++;
       if (worldNumber == 7) {
-        document.getElementById("upScroller").style.display = "none";
-        egg = false;
+        if (egg) {
+          egg = false;
+          eggCredits = true;
+        }
         stopBgMusic();
         currentMenu = 8;
         if (sound[1]) {
@@ -3279,12 +3394,11 @@ function newWorldBossDone() {
           hsMessage = "The current highscore is " + highscore.padStart(6, "0") + ". You scored " + scoreUpd + ".";
         }
         document.getElementById("finalScore").innerHTML = hsMessage;
-        document.getElementById("gameWon").style.display = "block";
         localStorage.removeItem("saveSlot" + currentGameSlot);
+        showCredits();
       } else {
-        if (sound[0]) {
-          playBgMusic();
-        }
+        $.playground().pauseGame();
+        playBgMusic();
         currentMenu = 6;
         var wnm = worldNumber - 1;
         remainingDistanceToPlanet = planetDistances[wnm];

@@ -1,6 +1,6 @@
 self.addEventListener("message", (event) => {
     if (event.data == "preload")
-        caches.open("SquadronV2.1.0").then((cache) => {
+        caches.open("SquadronV2.2.0").then((cache) => { //TODO UPDATE TO 2.2.0
             return cache.addAll([
                 "./index.html",
                 "./game.css",
@@ -136,7 +136,8 @@ self.addEventListener("message", (event) => {
                 "./assets/sound/booom.mp3",
                 "./assets/sound/bossDestroy.mp3",
                 "./assets/sound/gameOver.mp3",
-                "./assets/sound/gameWin.wav",
+                "./assets/sound/gameWin.mp3",
+                "./assets/sound/gameWin2.wav",
                 "./assets/sound/gun.mp3",
                 "./assets/sound/invincibilityHit.mp3",
                 "./assets/sound/laser.wav",
@@ -150,11 +151,16 @@ self.addEventListener("message", (event) => {
                 "./assets/sound/bg/2.mp3",
                 "./assets/sound/bg/3.mp3",
                 "./assets/sound/bg/4.mp3",
+                "./assets/sound/bg/5.mp3",
                 "./assets/sound/bg/bossFight1.mp3",
+                "./assets/sound/bg/bossFightFinal.mp3",
+                "./assets/sound/bg/title.mp3",
                 "./assets/sound/bg/egg.mp3",
                 "./assets/sound/bg/invincibility.mp3",
                 "./assets/logos/logoText.png",
-                "./assets/logos/logoText.ico"
+                "./assets/logos/logoText.ico",
+                "./assets/videos/hq/credits-egg.mp4",
+                "./assets/videos/hq/credits.mp4"
             ]);
         });
     event.source.postMessage("ready");

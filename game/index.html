@@ -74,6 +74,19 @@
       <div id="mainMenu" class="hide w3-center fullWidth fullHeight w3-black bg">
         <br />
         <img src="./assets/animations/hq/title-logo-individualspin.gif" id="titleLogo" alt="SQUADRON" />
+        <a
+          href="https://github.com/IWLTechnology/Squadron/releases"
+          class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple"
+          id="installButton"
+          ><b>Install app</b></a
+        >
+        <button
+          onclick="updateMenu('open')"
+          class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple"
+          id="updateButton"
+          style="display: none">
+          <b>Update</b>
+        </button>
         <br />
         <div class="menuSelect">
           <table class="menuSelectTable">
@@ -112,21 +125,47 @@
                 </button>
               </td>
             </tr>
+          </table>
+        </div>
+        <br />
+        <span class="spanResize" id="version">Version <span id="preciseVersion" class="spanResize">2.2.0</span></span>
+      </div>
+      <div id="updateMenu" class="hide w3-center w3-black fullHeight fullWidth bg">
+        <br />
+        <h1 class="font2 green"><b>An update is available.</b></h1>
+        <br />
+        <span class="spanResize"
+          >Version <span id="updateVersion" class="spanResize"></span> is available. <br />
+          Do you want to update?</span
+        >
+        <div class="menuSelect">
+          <table class="menuSelectTable">
             <tr>
-              <td class="menuSelectLocation" id="menu1Select3"></td>
+              <td class="menuSelectLocation" id="menu23Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
               <td class="menuSelectOption">
                 <button
-                  onclick="mainMenu(2)"
-                  id="menu1Button3"
+                  onclick="updateMenu(0)"
+                  id="menu23Button0"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
-                  <b>CREDITS</b>
+                  <b>YES</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu23Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="updateMenu(1)"
+                  id="menu23Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>NO</b>
                 </button>
               </td>
             </tr>
           </table>
         </div>
-        <br />
-        <span class="spanResize" id="version">Version 2.1.0</span>
       </div>
       <div id="setControls" class="hide w3-black w3-center fullHeight fullWidth bg">
         <br />
@@ -337,7 +376,7 @@
                   onclick="settingsMenu(0)"
                   id="menu2Button0"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
-                  <b id="sound">SOUND - ON</b>
+                  <b id="music">MUSIC - 70%</b>
                 </button>
               </td>
             </tr>
@@ -348,7 +387,7 @@
                   onclick="settingsMenu(1)"
                   id="menu2Button1"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
-                  <b id="difficulty">DIFFICULTY - NORMAL</b>
+                  <b id="sfx">SFX - ON</b>
                 </button>
               </td>
             </tr>
@@ -359,7 +398,7 @@
                   onclick="settingsMenu(2)"
                   id="menu2Button2"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
-                  <b>CONTROLS</b>
+                  <b id="difficulty">DIFFICULTY - NORMAL</b>
                 </button>
               </td>
             </tr>
@@ -367,10 +406,10 @@
               <td class="menuSelectLocation" id="menu2Select3"></td>
               <td class="menuSelectOption">
                 <button
-                  onclick="autosaveChange()"
+                  onclick="settingsMenu(3)"
                   id="menu2Button3"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
-                  <b id="autosaveDuration"></b>
+                  <b>CONTROLS</b>
                 </button>
               </td>
             </tr>
@@ -378,10 +417,10 @@
               <td class="menuSelectLocation" id="menu2Select4"></td>
               <td class="menuSelectOption">
                 <button
-                  onclick="settingsMenu(3)"
+                  onclick="autosaveChange()"
                   id="menu2Button4"
-                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple clearSS">
-                  <b>CLEAR ALL DATA</b>
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="autosaveDuration"></b>
                 </button>
               </td>
             </tr>
@@ -391,6 +430,17 @@
                 <button
                   onclick="settingsMenu(4)"
                   id="menu2Button5"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple clearSS">
+                  <b>CLEAR ALL DATA</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu2Select6"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="settingsMenu(5)"
+                  id="menu2Button6"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
                   <b>CLOSE</b>
                 </button>
@@ -587,7 +637,9 @@
         <br />
         <h1 class="font1 red">ARE YOU SURE?</h1>
         <br />
-        <h2 class="red" id="clearStorageMessage">THIS WILL ERASE ALL DATA YOU HAVE SAVED INCLUDING SETTINGS, SAVED GAMES AND HIGHSCORES.</h2>
+        <h2 class="red" id="clearStorageMessage">
+          THIS WILL ERASE ALL DATA YOU HAVE SAVED INCLUDING SETTINGS, SAVED GAMES AND HIGHSCORES.
+        </h2>
         <div class="menuSelect">
           <table class="menuSelectTable">
             <tr>
@@ -676,14 +728,12 @@
         </div>
       </div>
       <div id="confirmPlayMenu" class="hide w3-black fullHeight w3-center fullWidth bg">
-        <br>
+        <br />
         <h1 class="font1">CONFIRM SETTINGS:</h1>
         <h2>You will not be able to change these later.</h2>
         <div id="confirmSettingsDiv">
-          <span><span id="confirmSound">SOUND IS ON</span>.</span>
-          <br />
           <span>YOU ARE PLAYING IN <span id="confirmMode">...</span> MODE.</span>
-          <br>
+          <br />
           <span>THE DIFFICULTY IS SET TO <span id="confirmDifficulty">...</span>.</span>
           <br />
           <span class="red bigRed">YOU ARE OVERRIDING SLOT <span id="confirmSlot">...</span>.</span>
@@ -743,7 +793,7 @@
                   onclick="inGameSettingsMenu(0)"
                   id="menu3Button0"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
-                  <b id="autosaveDuration2"></b>
+                  <b id="music2"></b>
                 </button>
               </td>
             </tr>
@@ -754,268 +804,27 @@
                   onclick="inGameSettingsMenu(1)"
                   id="menu3Button1"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
-                  <b>CLOSE</b>
+                  <b id="sfx2"></b>
                 </button>
               </td>
             </tr>
-          </table>
-        </div>
-      </div>
-      <div id="creditsMenu" class="hide w3-center w3-black fullWidth fullHeight bg">
-        <h2 class="font1">CREDITS</h2>
-        <div class="creditsData">
-          <b>3D Model Sources:</b>
-          <br />
-          <p>
-            "USS Enterprise D, Star Trek TNG" (<a href="https://skfb.ly/GATQ">https://skfb.ly/GATQ</a>) by
-            HaughtyGrayAlien is licensed under Creative Commons Attribution (<a
-              href="https://creativecommons.org/licenses/by/4.0/"
-              >https://creativecommons.org/licenses/by/4.0/</a
-            >).
-          </p>
-          <p>
-            "Star Trek Klingon K'vek Class" (<a href="https://skfb.ly/TWQI">https://skfb.ly/TWQI</a>) by Cleeve is
-            licensed under Creative Commons Attribution (<a href="https://creativecommons.org/licenses/by/4.0/"
-              >https://creativecommons.org/licenses/by/4.0/</a
-            >).
-          </p>
-          <p>
-            "Star Wars: Imperial II Star Destroyer" (<a href="https://skfb.ly/LuuA">https://skfb.ly/LuuA</a>) by Daniel
-            is licensed under Creative Commons Attribution (<a href="https://creativecommons.org/licenses/by/4.0/"
-              >https://creativecommons.org/licenses/by/4.0/</a
-            >).
-          </p>
-          <p>
-            "Death Star - Star Wars" (<a href="https://skfb.ly/oqGZX">https://skfb.ly/oqGZX</a>) by Quiznos323 is
-            licensed under CC Attribution-NonCommercial-ShareAlike (<a
-              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-              >https://creativecommons.org/licenses/by-nc-sa/4.0/</a
-            >).
-          </p>
-          <p>
-            "Sci Fi Planets" (<a href="https://skfb.ly/6xZ8G">https://skfb.ly/6xZ8G</a>) by dante6686 is licensed under
-            Creative Commons Attribution-ShareAlike (<a href="https://creativecommons.org/licenses/by-sa/4.0/"
-              >https://creativecommons.org/licenses/by-sa/4.0/</a
-            >).
-          </p>
-          <p>
-            "Asteroid Field (100 x medium-Poly)" (<a jref="https://skfb.ly/oQGrp">https://skfb.ly/oQGrp</a>) by Sereib
-            is licensed under Creative Commons Attribution (<a href="https://creativecommons.org/licenses/by/4.0/"
-              >https://creativecommons.org/licenses/by/4.0/</a
-            >).
-          </p>
-          <p>
-            "Stylized Asteroids" (<a href="https://skfb.ly/oNstB">https://skfb.ly/oNstB</a>) by Dimitri Matcharashvili
-            is licensed under Creative Commons Attribution (<a href="https://creativecommons.org/licenses/by/4.0/"
-              >https://creativecommons.org/licenses/by/4.0/</a
-            >).
-          </p>
-          <p>
-            "Various Planets" (<a href="https://skfb.ly/o7F9p">https://skfb.ly/o7F9p</a>) by Feivelyn is licensed under
-            Creative Commons Attribution (<a href="https://creativecommons.org/licenses/by/4.0/"
-              >https://creativecommons.org/licenses/by/4.0/</a
-            >).
-          </p>
-          <p>
-            "Simple Free Powerup Icons" (<a href="https://skfb.ly/6CzXB">https://skfb.ly/6CzXB</a>) by RunemarkStudio is
-            licensed under Creative Commons Attribution (<a href="https://creativecommons.org/licenses/by/4.0/"
-              >https://creativecommons.org/licenses/by/4.0/</a
-            >).
-          </p>
-          <p>
-            "Simple heart" (<a href="https://skfb.ly/NCPY">https://skfb.ly/NCPY</a>) by troadey is licensed under
-            Creative Commons Attribution (<a href="https://creativecommons.org/licenses/by/4.0/"
-              >https://creativecommons.org/licenses/by/4.0/</a
-            >).
-          </p>
-          <br />
-          <b>Media Sources:</b>
-          <br />
-          <p>
-            The following was used for the background animation on menu screens: <br />
-            Black Space Stock Videos by Vecteezy (<a href="https://www.vecteezy.com/free-videos/black-space"
-              >https://www.vecteezy.com/free-videos/black-space</a
-            >), specifically
-            <a href="https://www.vecteezy.com/video/2016656-minimal-stars-motion-loop-background-for-project-overlay"
-              >https://www.vecteezy.com/video/2016656-minimal-stars-motion-loop-background-for-project-overlay</a
-            >
-          </p>
-
-          <p>
-            Thanks to <a href="https://enjl.itch.io/background-starry-space/">Enjl on Itch.io</a> for the parallax
-            background used in the game, which is licensed under the Creative Commons Attribution_ShareAlike v4.0
-            International License (<a href="https://creativecommons.org/licenses/by-sa/4.0/"
-              >https://creativecommons.org/licenses/by-sa/4.0/</a
-            >)
-          </p>
-          <p>
-            Music by
-            <a
-              href="https://pixabay.com/users/delosound-46524562/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=351305"
-              >DELOSound</a
-            >
-            from
-            <a
-              href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=351305"
-              >Pixabay</a
-            >
-          </p>
-
-          <p>
-            Music by
-            <a
-              href="https://pixabay.com/users/paoloargento-38603296/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=194417"
-              >Paolo Argento</a
-            >
-            from
-            <a
-              href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=194417"
-              >Pixabay</a
-            >
-          </p>
-
-          <p>
-            Music by
-            <a
-              href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=350710"
-              >Universfield</a
-            >
-            from
-            <a
-              href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=350710"
-              >Pixabay</a
-            >
-          </p>
-
-          <p>
-            Music by
-            <a
-              href="https://pixabay.com/users/original_soundtrack-50153119/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=370754"
-              >Viacheslav Starostin</a
-            >
-            from
-            <a
-              href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=370754"
-              >Pixabay</a
-            >
-          </p>
-
-          <p>
-            Music by
-            <a
-              href="https://pixabay.com/users/clavier-music-16027823/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=312291"
-              >Clavier Clavier</a
-            >
-            from
-            <a
-              href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=312291"
-              >Pixabay</a
-            >
-          </p>
-
-          <p>
-            Sound Effect by
-            <a
-              href="https://pixabay.com/users/dragon-studio-38165424/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=372473"
-              >DRAGON-STUDIO</a
-            >
-            from
-            <a
-              href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=372473"
-              >Pixabay</a
-            >
-          </p>
-
-          <p>
-            Sound Effect by
-            <a
-              href="https://pixabay.com/users/sonixfxsounds-49053354/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=307469"
-              >SonixFXSounds</a
-            >
-            from
-            <a
-              href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=307469"
-              >Pixabay</a
-            >
-          </p>
-
-          <p>
-            The following track is used as the invincibility music: <br />
-            Pixel Peeker Polka – faster by Kevin MacLeod |
-            <a href="https://incompetech.com/">https://incompetech.com/</a> <br />
-            Music promoted by
-            <a href="https://www.chosic.com/free-music/all/">https://www.chosic.com/free-music/all/</a> <br />
-            Creative Commons CC BY 3.0 <br />
-            <a href="https://creativecommons.org/licenses/by/3.0/">https://creativecommons.org/licenses/by/3.0/</a>
-          </p>
-
-          <p></p>
-
-          <p>
-            Music by
-            <a
-              href="https://pixabay.com/users/paoloargento-38603296/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=194417"
-              >Paolo Argento</a
-            >
-            from
-            <a
-              href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=194417"
-              >Pixabay</a
-            >
-          </p>
-          <br />
-          <b>Font Sources</b>
-          <br />
-          <p>
-            The font “Press Start 2P" is licensed under the SIL Open Font License, Version 1.1 (<a
-              href="https://openfontlicense.org"
-              >https://openfontlicense.org</a
-            >. Further information can be found at licenses/Press_Start_2P/OFL.txt in the game (directory for
-            application versions, web address for online versions).
-          </p>
-          <p>
-            The font “Silkscreen" is licensed under the SIL Open Font License, Version 1.1 (<a
-              href="https://openfontlicense.org"
-              >https://openfontlicense.org</a
-            >. Further information can be found at licenses/Silkscreen/OFL.txt in the game (directory for application
-            versions, web address for online versions).
-          </p>
-          <br />
-          <b>Code sources</b>
-          <br />
-          <p>This game uses <a href="https://jquery.com/">JQuery</a></p>
-          <p>This game uses <a href="https://gamequeryjs.com/">GameQuery</a></p>
-          <p>
-            Thanks to <a href="https://stackoverflow.com/">Stack Overflow</a> (a programmer's best friend) for various
-            code snippets used in this site.
-          </p>
-          <br />
-          <b>Thanks to:</b>
-          <br />
-          <p>
-            <a href="https://canva.com/">Canva</a> for the awesome image and video editor used to edit assets throughout
-            this site
-          </p>
-          <p>
-            <a href="https://freeconvert.com/">Freeconvert</a> for the awesome conversion system used on files
-            throughout this site.
-          </p>
-          <p>
-            <a href="https://www.w3schools.com/w3css/default.asp">W3.CSS</a> for the CSS engine sometimes used on this
-            site.
-          </p>
-        </div>
-        <br />
-        <div class="menuSelect">
-          <table class="menuSelectTable">
             <tr>
-              <td class="menuSelectLocation" id="menu4Select0">
-                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
-              </td>
+              <td class="menuSelectLocation" id="menu3Select2"></td>
               <td class="menuSelectOption">
                 <button
-                  onclick="credits(0)"
-                  id="menu4Button0"
+                  onclick="inGameSettingsMenu(2)"
+                  id="menu3Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="autosaveDuration2"></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu3Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="inGameSettingsMenu(3)"
+                  id="menu3Button3"
                   class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
                   <b>CLOSE</b>
                 </button>
@@ -1024,6 +833,7 @@
           </table>
         </div>
       </div>
+      <div id="credits" class="hide w3-center w3-black fullWidth fullHeight"></div>
       <div id="upScroller" class="hide">
         <div id="topBar">
           <table style="float: right !important" id="topBarTable">
@@ -1257,7 +1067,7 @@
       </div>
       <div id="gameWon" class="hide w3-center fullWidth fullHeight w3-black bg">
         <br />
-        <h1 class="font1 green">YOU WIN!</h1>
+        <h1 class="font1 green">YOU WON!</h1>
         <br />
         <h2 class="green">
           CONGRATULATIONS, PLAYER. YOU RESCUED THE ENTIRE RHO SQUADRON AND DEFEATED THE INFAMOUS ZETA SQUAD!
@@ -1559,8 +1369,17 @@
         <audio id="bg3" preload="auto">
           <source src="./assets/sound/bg/4.mp3" type="audio/mpeg" />
         </audio>
+        <audio id="bg4" preload="auto">
+          <source src="./assets/sound/bg/5.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="titleMusic" preload="auto">
+          <source src="./assets/sound/bg/title.mp3" type="audio/mpeg" />
+        </audio>
         <audio id="bgBoss1" preload="auto">
           <source src="./assets/sound/bg/bossFight1.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="bgBossFinal" preload="auto">
+          <source src="./assets/sound/bg/bossFightFinal.mp3" type="audio/mpeg" />
         </audio>
         <audio id="bgInvincibility" preload="auto">
           <source src="./assets/sound/bg/invincibility.mp3" type="audio/mpeg" />
