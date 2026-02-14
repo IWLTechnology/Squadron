@@ -21,6 +21,7 @@ var egg = settingsData.egg;
 if (egg == "true") {
   egg = true;
   eggUsedAtStart = true;
+  invincibility = true;
   eggGraphics();
 } else {
   egg = false;
@@ -2501,13 +2502,16 @@ function soundLoad(ev) {
       } else {
         timeouts.planetTimer++;
       }
-      if (egg && !eggUsed && !eggUsedAtStart) {
-        powerupCollect(5);
-        eggGraphics();
+      if (egg && !eggUsed) {
+        if (!eggUsedAtStart) {
+          powerupCollect(5);
+          eggGraphics();
+          score += 500000;
+          updateScore();
+        }
         eggUsed = true;
         invincibility = true;
-        score += 500000;
-        updateScore();
+
         updateSquadronLives();
         stopInvincibilityMusic();
       }
@@ -3129,7 +3133,6 @@ function newWorld() {
   var wnp = worldNumber + 1;
   shipElement[0].style.backgroundImage = `url('./assets/images/hq/rho-${wnp}-top.png')`;
   shipElement[0].ship = new Ship(shipElement, wnp);
-
   clearGame = true;
   stopWorldCounter = true;
 }
@@ -3450,6 +3453,7 @@ function newWorldContinue() {
   updateShieldBar();
   updateWeaponAmmunition();
   $("#squadron").x(gameWidth / 2 - (playerWidth * 5) / 2);
+  document.getElementById("squadron").style.display = "block";
   clearGame = true;
   setTimeout(function () {
     clearGame = false;
