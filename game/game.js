@@ -932,7 +932,7 @@ function playBgMusic() {
 }
 
 function titleMusic(opt) {
-  if (opt == "play") {
+  if (opt == "play" && egg) {
     var rand;
     window.clearTimeout(timeouts.titlemusicStop);
     document.getElementById("titleMusic").pause();

@@ -1,6 +1,6 @@
 self.addEventListener("message", (event) => {
     if (event.data == "preload")
-        caches.open("SquadronV2.2.0").then((cache) => { //TODO UPDATE TO 2.2.0
+        caches.open("SquadronV2.2.1").then((cache) => {
             return cache.addAll([
                 "./index.html",
                 "./game.css",
