@@ -586,6 +586,7 @@ function keepGoing(opt) {
 function killInvincibility() {
   if (!egg) {
     stopBgMusic();
+    stopInvincibilityMusic();
     invincibility = false;
     invincibilityWarn = false;
     invincibilityMusicSlow = false;
@@ -912,9 +913,9 @@ function playBgMusic() {
   if (egg) {
     rand = "egg";
   } else {
-    rand = "bg" + Math.floor(Math.random() * 4);
+    rand = "bg" + Math.floor(Math.random() * 5);
   }
-  if (isBossFight && !egg) {
+  if (isBossFight) {
     if (worldNumber == 6) {
       rand = "bgBossFinal";
     } else {
@@ -980,7 +981,7 @@ function stopBgMusic() {
   musStopCount = 0.7;
   window.clearTimeout(timeouts.bgmusic);
   var i;
-  if (isBossFight && !egg) {
+  if (isBossFight) {
     timeouts.bgmusicStop = window.setInterval(function () {
       var i;
       if (musStopCount > 0) {
@@ -3058,10 +3059,8 @@ function newWorldShipCollect() {
   updateShipDetails();
   updateShipsInGame();
   isBossFight = true;
-  if (!invincibility) {
-    stopBgMusic();
-    playBgMusic();
-  }
+  stopBgMusic();
+  playBgMusic();
 
   name = "boss_" + worldNumber;
   var wnm = worldNumber - 1;
