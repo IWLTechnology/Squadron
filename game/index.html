@@ -1,0 +1,1402 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="description" content="A top-down 2D retro-style space arcade game" />
+    <meta name="og:description" content="A top-down 2D retro-style space arcade game" />
+    <meta property="og:image" content="./assets/logos/logoText.png" />
+    <meta property="og:title" content="Squadron" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="./assets/logos/logoText.ico" />
+    <meta name="theme-color" content="#000000" />
+    <title>Loading... | Squadron</title>
+    <script src="./assets/scripts/sound.js" type="application/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="./assets/styles/w3.css" />
+    <link rel="stylesheet" type="text/css" href="./game.css" />
+  </head>
+
+  <body onload="init()">
+    <div id="resizedGame" class="hide w3-center fullWidth w3-black fullHeight bg resized">
+      <br />
+      <h1>
+        Game resizes are not permitted.<br />
+        Please to the original dimensions, or click below to recalibrate (this will restart your game).
+      </h1>
+      <div class="menuSelect">
+        <table class="menuSelectTable">
+          <tr>
+            <td class="menuSelectLocation" id="menu13Select0">
+              <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+            </td>
+            <td class="menuSelectOption">
+              <button
+                onclick="window.location.reload()"
+                id="menu13Button0"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                <b>RECALIBRATE</b>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div id="resizedMenu" class="hide w3-center fullWidth w3-black fullHeight bg resized">
+      <br />
+      <h1>
+        Game resizes are not permitted.<br />
+        Please to the original dimensions, or click below to recalibrate (this will restart your game).
+      </h1>
+      <div class="menuSelect">
+        <table class="menuSelectTable">
+          <tr>
+            <td class="menuSelectLocation" id="menu14Select0">
+              <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+            </td>
+            <td class="menuSelectOption">
+              <button
+                onclick="window.location.reload()"
+                id="menu14Button0"
+                class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                <b>RECALIBRATE</b>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div id="resizeMaterial">
+      <div id="alertBox" onclick="closeAlertC();">
+        <span id="alertTitle">HEAD</span><br />
+        <span id="alertText">BODY</span><br />
+        <span id="closeAlert">Click to permanently dismiss.</span>
+      </div>
+      <div id="mainMenu" class="hide w3-center fullWidth fullHeight w3-black bg">
+        <br />
+        <img src="./assets/animations/hq/title-logo-individualspin.gif" id="titleLogo" alt="SQUADRON" />
+        <a
+          href="https://github.com/IWLTechnology/Squadron/releases"
+          class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple"
+          id="installButton"
+          ><b>Install app</b></a
+        >
+        <button
+          onclick="updateMenu('open')"
+          class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple"
+          id="updateButton"
+          style="display: none">
+          <b>Update</b>
+        </button>
+        <br />
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu1Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="chooseSlot(0)"
+                  id="menu1Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>NEW GAME</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu1Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="recallSlot(0)"
+                  id="menu1Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="loadGameState">LOAD GAME</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu1Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="mainMenu(1)"
+                  id="menu1Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SETTINGS</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <br />
+        <span class="spanResize" id="version">Version <span id="preciseVersion" class="spanResize">2.2.2</span></span>
+      </div>
+      <div id="updateMenu" class="hide w3-center w3-black fullHeight fullWidth bg">
+        <br />
+        <h1 class="font2 green"><b>An update is available.</b></h1>
+        <br />
+        <span class="spanResize"
+          >Version <span id="updateVersion" class="spanResize"></span> is available. <br />
+          Do you want to update?</span
+        >
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu23Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="updateMenu(0)"
+                  id="menu23Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>YES</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu23Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="updateMenu(1)"
+                  id="menu23Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>NO</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="setControls" class="hide w3-black w3-center fullHeight fullWidth bg">
+        <br />
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu15Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setControls(1)"
+                  id="menu15Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>FLY LEFT - <b id="controls1">LEFT</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu15Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setControls(2)"
+                  id="menu15Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>FLY RIGHT - <b id="controls2">RIGHT</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu15Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setControls(3)"
+                  id="menu15Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SWITCH/DOWN - <b id="controls3">DOWN</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu15Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setControls(4)"
+                  id="menu15Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SWITCH/UP - <b id="controls4">UP</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu15Select4"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setControls(5)"
+                  id="menu15Button4"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>FIRE - <b id="controls5">SPACE</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu15Select5"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setControls(6)"
+                  id="menu15Button5"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>PAUSE GAME - <b id="controls6">ENTER</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu15Select6"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setControls(7)"
+                  id="menu15Button6"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>MENU SELECT - <b id="controls7">SHIFT</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu15Select7"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setControls(8)"
+                  id="menu15Button7"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>CLOSE</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="setGamepadControls" class="hide w3-black w3-center fullHeight fullWidth bg">
+        <br />
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu16Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setGamepadControls(1)"
+                  id="menu16Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>FLY LEFT - <b id="gcontrols1">KEY 100</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu16Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setGamepadControls(2)"
+                  id="menu16Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>FLY RIGHT - <b id="gcontrols2">KEY 101</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu16Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setGamepadControls(3)"
+                  id="menu16Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SWITCH/DOWN - <b id="gcontrols3">KEY 103</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu16Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setGamepadControls(4)"
+                  id="menu16Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SWITCH/UP - <b id="gcontrols4">KEY 102</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu16Select4"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setGamepadControls(5)"
+                  id="menu16Button4"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>FIRE - <b id="gcontrols5">KEY 1</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu16Select5"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setGamepadControls(6)"
+                  id="menu16Button5"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>PAUSE GAME - <b id="gcontrols6">KEY 9</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu16Select6"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setGamepadControls(7)"
+                  id="menu16Button6"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>MENU SELECT - <b id="gcontrols7">KEY 0</b></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu16Select7"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="setGamepadControls(8)"
+                  id="menu16Button7"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>CLOSE</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <span class="spanResize">Please note that the gamepad is disabled for this menu.</span>
+      </div>
+      <div id="settingsMenu" class="hide w3-center w3-black fullHeight fullWidth bg">
+        <br />
+        <h1 class="font1"><b>SETTINGS</b></h1>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu2Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="settingsMenu(0)"
+                  id="menu2Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="music">MUSIC - 70%</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu2Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="settingsMenu(1)"
+                  id="menu2Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="sfx">SFX - ON</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu2Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="settingsMenu(2)"
+                  id="menu2Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="difficulty">DIFFICULTY - NORMAL</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu2Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="settingsMenu(3)"
+                  id="menu2Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>CONTROLS</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu2Select4"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="autosaveChange()"
+                  id="menu2Button4"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="autosaveDuration"></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu2Select5"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="settingsMenu(4)"
+                  id="menu2Button5"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple clearSS">
+                  <b>CLEAR ALL DATA</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu2Select6"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="settingsMenu(5)"
+                  id="menu2Button6"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>CLOSE</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="newSlot" class="hide w3-center w3-black fullHeight fullWidth bg">
+        <br />
+        <h1 class="font1"><b>CHOOSE A SLOT</b></h1>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu20Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="chooseSlot(1)"
+                  id="menu20Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SLOT 1</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu20Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="chooseSlot(2)"
+                  id="menu20Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SLOT 2</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu20Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="chooseSlot(3)"
+                  id="menu20Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SLOT 3</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu20Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="chooseSlot(4)"
+                  id="menu20Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SLOT 4</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu20Select4"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="chooseSlot(5)"
+                  id="menu20Button4"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>BACK</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="recallSlot" class="hide w3-center w3-black fullHeight fullWidth bg">
+        <br />
+        <h1 class="font1"><b>CHOOSE A SLOT TO LOAD</b></h1>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu21Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="recallSlot(1)"
+                  id="menu21Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SLOT 1</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu21Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="recallSlot(2)"
+                  id="menu21Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SLOT 2</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu21Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="recallSlot(3)"
+                  id="menu21Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SLOT 3</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu21Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="recallSlot(4)"
+                  id="menu21Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SLOT 4</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu21Select4"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="recallSlot(5)"
+                  id="menu21Button4"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>BACK</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="controlsSettingsMenu" class="hide w3-center w3-black fullHeight fullWidth bg">
+        <br />
+        <h1 class="font1"><b>CONTROLS</b></h1>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu19Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="controlsSettingsMenu(1)"
+                  id="menu19Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SET KEYBOARD CONTROLS</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu19Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="controlsSettingsMenu(2)"
+                  id="menu19Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple greyedOut">
+                  <b>SET GAMEPAD CONTROLS</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu19Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="changeDeadzone()"
+                  id="menu19Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>STICK DEADZONE - <span id="deadzoneN">0.5</span></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu19Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="controlsSettingsMenu(3)"
+                  id="menu19Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>BACK</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="clearStorageConfirm" class="hide w3-black fullHeight w3-center fullWidth bg">
+        <br />
+        <h1 class="font1 red">ARE YOU SURE?</h1>
+        <br />
+        <h2 class="red" id="clearStorageMessage">
+          THIS WILL ERASE ALL DATA YOU HAVE SAVED INCLUDING SETTINGS, SAVED GAMES AND HIGHSCORES.
+        </h2>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu17Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="clearSettings(0)"
+                  id="menu17Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>NO</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu17Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="clearSettings(1)"
+                  id="menu17Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple clearSS">
+                  <b>YES</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="playMenu" class="hide w3-black fullHeight w3-center fullWidth bg">
+        <br />
+        <h1 class="font1">CHOOSE A GAME MODE:</h1>
+        <br />
+        <div class="menuSelect menuSelectPlay">
+          <table>
+            <tr>
+              <td>
+                <table class="menuSelectTable">
+                  <tr>
+                    <td class="menuSelectLocation" id="menu18Select0">
+                      <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+                    </td>
+                    <td class="menuSelectOption">
+                      <button
+                        onclick="playMenu(1)"
+                        id="menu18Button0"
+                        class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                        <b>1 PLAYER</b>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="menuSelectLocation" id="menu18Select1"></td>
+                    <td class="menuSelectOption">
+                      <button
+                        onclick="playMenu(2)"
+                        id="menu18Button1"
+                        class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple greyedOut">
+                        <b>2 PLAYER</b>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="menuSelectLocation" id="menu18Select2"></td>
+                    <td class="menuSelectOption">
+                      <button
+                        onclick="playMenu(3)"
+                        id="menu18Button2"
+                        class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                        <b>BACK</b>
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td class="highscoreTd w3-center">
+                <div class="highscoreOuter">
+                  <h2 class="font1">HIGHSCORES:</h2>
+                  <p class="spanResize">EASY: <span id="hs_easy">LOADING...</span></p>
+                  <p class="spanResize">NORMAL: <span id="hs_norm">LOADING...</span></p>
+                  <p class="spanResize">HARD: <span id="hs_hard">LOADING...</span></p>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="confirmPlayMenu" class="hide w3-black fullHeight w3-center fullWidth bg">
+        <br />
+        <h1 class="font1">CONFIRM SETTINGS:</h1>
+        <h2>You will not be able to change these later.</h2>
+        <div id="confirmSettingsDiv">
+          <span>YOU ARE PLAYING IN <span id="confirmMode">...</span> MODE.</span>
+          <br />
+          <span>THE DIFFICULTY IS SET TO <span id="confirmDifficulty">...</span>.</span>
+          <br />
+          <span class="red bigRed">YOU ARE OVERRIDING SLOT <span id="confirmSlot">...</span>.</span>
+        </div>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu22Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="confirmPlayMenu(1)"
+                  id="menu22Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>OK</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu22Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="confirmPlayMenu(2)"
+                  id="menu22Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>BACK</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu22Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="confirmPlayMenu(3)"
+                  id="menu22Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>BACK TO MENU</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="inGameSettingsMenu" class="hide w3-black w3-center fullHeight fullWidth bg">
+        <br />
+        <h1 class="font1"><b>SETTINGS</b></h1>
+        <br />
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu3Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="inGameSettingsMenu(0)"
+                  id="menu3Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="music2"></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu3Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="inGameSettingsMenu(1)"
+                  id="menu3Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="sfx2"></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu3Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="inGameSettingsMenu(2)"
+                  id="menu3Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b id="autosaveDuration2"></b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu3Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="inGameSettingsMenu(3)"
+                  id="menu3Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>CLOSE</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="credits" class="hide w3-center w3-black fullWidth fullHeight"></div>
+      <div id="upScroller" class="hide">
+        <div id="topBar">
+          <table style="float: right !important" id="topBarTable">
+            <tr>
+              <td>
+                <button id="pauseButton" onclick="pauseGame()">
+                  <img src="./assets/images/hq/pauseIcon.png" style="height: 100% !important" alt="Pause" />
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="playground"></div>
+        <div id="bottomBarLeft">
+          <table id="bottomBarLeftTable">
+            <tr>
+              <td id="selectedShipImageAndMessage" rowspan="6">
+                <img id="selectedShipImage" src="./assets/images/hq/rho-1-top.png" alt="Ship" />
+                <br />
+                <span id="downToSwitchMessage" class="tc"></span>
+              </td>
+              <td class="spanResize">
+                <span>SHIP <span id="selectedShipNumber">1</span> - <span id="selectedShipName">TRAINEE</span></span
+                ><br />
+                <span class="smallFont tc" id="currentWeaponName">NO WEAPON</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="spanResizeS">
+                <img
+                  src="./assets/images/hq/powerups-refillammo.png"
+                  alt="AMMO"
+                  class="marginBp5"
+                  style="height: 200% !important" /><span>: </span>
+                <div
+                  id="ammoBarOuter"
+                  style="width: 70%; display: inline-block; background-color: dimgrey"
+                  class="generalStatusBar">
+                  <div id="ammoBarInner" class="generalStatusBarInner" style="background-color: #4caf50"></div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="spanResizeS">
+                <img
+                  src="./assets/images/hq/powerups-squadlife.png"
+                  alt="SQUADRONS"
+                  class="marginBp5"
+                  style="height: 200% !important" /><span>: </span><span id="squadronNumber">5</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="spanResizeS">
+                <img
+                  src="./assets/images/hq/planets-1.png"
+                  alt="WORLD"
+                  class="marginBp5"
+                  style="height: 200% !important" /><span>: </span><span id="worldNumber">1</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="spanResizeS"><span>#</span><span>: </span><span id="scoreNumber">000000</span></td>
+            </tr>
+            <tr>
+              <td class="spanResizeS"><span># TO HS</span><span>: </span><span id="scoreLeftNumber">...</span></td>
+            </tr>
+          </table>
+        </div>
+        <div id="bottomBarRight">
+          <table id="bottomBarRightTable">
+            <tr>
+              <td id="radarTd">
+                <div id="radar"></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="w3-center">
+                <span id="remainingDistanceToPlanet">...</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="loading" class="fullWidth w3-center w3-black">
+        <img src="./assets/animations/hq/rho-1-spin-x1.gif" alt="Loading..." id="splashLogo" /><br />
+        <h1 id="splashOtherh1">Loading your experience...</h1>
+        <h2 id="splashOtherh2">Preloading Assets...</h2>
+        <br />
+      </div>
+      <div id="paused" class="hide w3-center w3-black fullHeight fullWidth bg">
+        <br />
+        <h1>This game has lost focus. Click on it to resume.</h1>
+      </div>
+      <div id="gameOver" class="hide w3-black fullHeight w3-center fullWidth bg">
+        <br />
+        <h1 class="font1 red">GAME OVER!</h1>
+        <br />
+        <h2 class="red">YOUR WHOLE SQUADRON WAS DESTROYED TOO MANY TIMES!</h2>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu5Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="returnToMainMenu()"
+                  id="menu5Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>QUIT TO THE MAIN MENU</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu5Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="keepGoing(0)"
+                  id="menu5Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>KEEP GOING</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="keepGoing" class="hide w3-black fullHeight w3-center fullWidth bg">
+        <br />
+        <h1 class="font1 red">ARE YOU SURE?</h1>
+        <br />
+        <h2 class="red">KEEPING GOING IS CHEATING. YOUR SCORE WILL BE RESET.</h2>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu12Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="keepGoing(1)"
+                  id="menu12Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>NO</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu12Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="keepGoing(2)"
+                  id="menu12Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>YES</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="newWorld" class="hide w3-black w3-center fullWidth fullHeight bg">
+        <br />
+        <h1 class="font1 green">YOU RESCUED THE <span id="rescuedShipName1"></span>!</h1>
+        <br />
+        <div id="rescuedShipTableLocation">
+          <table id="rescuedTable">
+            <tr>
+              <td>
+                <img alt="Ship" src="./assets/images/hq/rho-1-top.png" id="rescuedShipImage" />
+              </td>
+              <td>
+                <span id="rescuedShipName2">NAME</span>
+                <br />
+                <span id="rescuedShipWeapon" class="smallFont"></span>
+                <br />
+                <span id="rescuedShipWeaponCapacity" class="smallFont"></span>
+                <br />
+                <span class="smallFont"
+                  ><span id="rescuedShipHealth"></span> HP, <span id="rescuedShipShield"></span
+                ></span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <br />
+        <h2>
+          YOU CAN SWITCH BETWEEN THE SHIPS IN YOUR SQUADRON (AND THEIR ABILITIES) BY PRESSING THE SWITCH KEYS (MENU UP
+          OR MENU DOWN).
+        </h2>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu6Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="newWorldContinue()"
+                  id="menu6Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>THANKS!</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="squadronDeath" class="hide w3-center fullWidth fullHeight w3-black bg">
+        <br />
+        <h1 class="font1 red">YOU LOST A SQUADRON LIFE.</h1>
+        <br />
+        <h2 class="red">ALL YOUR SHIPS RAN OUT OF LIVES.</h2>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu7Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="continueAfterDeath()"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple"
+                  id="menu7Button0">
+                  <b>CONTINUE</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="gameWon" class="hide w3-center fullWidth fullHeight w3-black bg">
+        <br />
+        <h1 class="font1 green">YOU WON!</h1>
+        <br />
+        <h2 class="green">
+          CONGRATULATIONS, PLAYER. YOU RESCUED THE ENTIRE RHO SQUADRON AND DEFEATED THE INFAMOUS ZETA SQUAD!
+        </h2>
+        <h2 class="green" id="finalScore"></h2>
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu8Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="returnToMainMenu()"
+                  id="menu8Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>RETURN TO THE MAIN MENU</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="pauseMenu" class="hide w3-black w3-center fullWidth fullHeight bg">
+        <br />
+        <h1 class="font1 green">THE GAME IS PAUSED.</h1>
+        <br />
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu9Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="pauseMenuDo(0)"
+                  id="menu9Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>CONTINUE</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu9Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="pauseMenuDo(1)"
+                  id="menu9Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SETTINGS</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu9Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="stateDo('save')"
+                  id="menu9Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SAVE GAME</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu9Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="returnToMainMenu()"
+                  id="menu9Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>QUIT TO THE MAIN MENU</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="pauseMenuDev" class="hide w3-black w3-center fullWidth fullHeight bg">
+        <br />
+        <h1 class="font1 green">WELOME DEVELOPER!</h1>
+        <h2><i>The game is paused.</i></h2>
+        <br />
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu10Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="pauseMenuDo(0)"
+                  id="menu10Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>CONTINUE</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu10Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="pauseMenuDo(1)"
+                  id="menu10Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SETTINGS</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu10Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="showDevSettings()"
+                  id="menu10Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>DEV SETTINGS</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu10Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="returnToMainMenu()"
+                  id="menu10Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>QUIT TO THE MAIN MENU</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="devSettings" class="hide w3-black w3-center fullWidth fullHeight bg">
+        <br />
+        <h1 class="font1 green">DEV SETTINGS</h1>
+        <br />
+        <div class="menuSelect">
+          <table class="menuSelectTable">
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select0">
+                <img src="./assets/images/hq/rho-1-top.png" class="menuSelectImage" />
+              </td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(0)"
+                  id="menu11Button0"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>BACK</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select1"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(1)"
+                  id="menu11Button1"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>UNLOCK <u>ALL</u> SHIPS</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select2"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(2)"
+                  id="menu11Button2"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>RESTORE ALL LEVELS TO DEFAULTS</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select3"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(3)"
+                  id="menu11Button3"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>EASY MODE</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select4"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(4)"
+                  id="menu11Button4"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>HARD MODE</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select5"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(5)"
+                  id="menu11Button5"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SPAWN BOMBS x10</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select6"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(6)"
+                  id="menu11Button6"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SPAWN INVINCIBILITY x10</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select7"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(7)"
+                  id="menu11Button7"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>SKIP LEVEL</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select8"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(8)"
+                  id="menu11Button8"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>ENABLE / DISABLE LOGGING</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select9"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(9)"
+                  id="menu11Button9"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>ENABLE / DISABLE CONTINUE NO MATTER WHAT</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select10"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(10)"
+                  id="menu11Button10"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>LEAVE GAME FROZEN AND BLANK</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select11"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(11)"
+                  id="menu11Button11"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>RUN INFINITE EMPTY LEVEL</b>
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="menuSelectLocation" id="menu11Select12"></td>
+              <td class="menuSelectOption">
+                <button
+                  onclick="devSettings(12)"
+                  id="menu11Button12"
+                  class="w3-center w3-btn w3-white w3-round w3-border-white w3-ripple">
+                  <b>REMOVE DEV FLAGS</b>
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="hide" id="audio">
+        <audio id="bg0" preload="auto">
+          <source src="./assets/sound/bg/1.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="bg1" preload="auto">
+          <source src="./assets/sound/bg/2.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="bg2" preload="auto">
+          <source src="./assets/sound/bg/3.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="bg3" preload="auto">
+          <source src="./assets/sound/bg/4.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="bg4" preload="auto">
+          <source src="./assets/sound/bg/5.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="titleMusic" preload="auto">
+          <source src="./assets/sound/bg/title.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="bgBoss1" preload="auto">
+          <source src="./assets/sound/bg/bossFight1.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="bgBossFinal" preload="auto">
+          <source src="./assets/sound/bg/bossFightFinal.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="bgInvincibility" preload="auto">
+          <source src="./assets/sound/bg/invincibility.mp3" type="audio/mpeg" />
+        </audio>
+        <audio id="egg" preload="auto">
+          <source src="./assets/sound/bg/egg.mp3" type="audio/mpeg" />
+        </audio>
+      </div>
+      <noscript>
+        <div class="fullWidth fullHeight w3-center bg">
+          <h1 id="noscriptResult">Please enable JavaScript for this game to work, then reload. Thanks.</h1>
+        </div>
+      </noscript>
+    </div>
+    <script src="./assets/scripts/jquery.js"></script>
+    <script src="./assets/scripts/gamequery.min.js"></script>
+    <script src="./keyCodes.js"></script>
+    <script src="./game.js"></script>
+  </body>
+</html>
