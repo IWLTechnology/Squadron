@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **Work on this project is temporarily suspended.** A new version of this project is in progress, but it not a top priority. When completed, it will be released.
+
 [![CodeQL](https://github.com/IWLTechnology/Squadron/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/IWLTechnology/Squadron/actions/workflows/github-code-scanning/codeql) [![Deploy Jekyll with GitHub Pages dependencies preinstalled](https://github.com/IWLTechnology/Squadron/actions/workflows/jekyll-gh-pages.yml/badge.svg)](https://github.com/IWLTechnology/Squadron/actions/workflows/jekyll-gh-pages.yml)
 # Squadron
 A top-down 2D retro-style space arcade game available in electron-packaged versions (recommended), or a web format, as indicated in the "Web" section of the description of this repository. It supports gamepads, and the changing of controls.
@@ -22,4 +25,5 @@ Packaging files can be found under /package-linux and /package-windows.
 Various converter files (written for linux) and other miscellanea can be found under /PC
 
 ## Licensing
-Everything contained in this repository, unless otherwise stated in the credits section of the game, is licensed under the GNU General Public License v3.0 only (GPL-3.0-only).
+All code contained in this repository, unless otherwise stated in the credits section of the game, is licensed under the GNU General Public License v3.0 only (GPL-3.0-only).
+All game assets (including but not limited to artwork, 3D models, music, sound effects, and dialogue), unless otherwise stated in the credits section of the game, are licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
